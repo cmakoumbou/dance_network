@@ -27,5 +27,8 @@ module DanceNetwork
 
     # Bootstrap-sass
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
+    # Heroku
+    config.assets.initialize_on_precompile = false
   end
 end
