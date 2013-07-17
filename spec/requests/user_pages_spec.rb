@@ -55,6 +55,7 @@ describe "User pages" do
   			before { click_button submit }
   			let(:user) { User.find_by(email: 'user@example.com') }
 
+        it { should have_link('Sign out') }
   			it { should have_title(user.email) }
   			it { should have_content("Welcome! You have signed up successfully.") }
   		end
