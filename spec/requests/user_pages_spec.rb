@@ -8,15 +8,15 @@ describe "User pages" do
     let(:user) { FactoryGirl.create(:user) }
     before { visit user_root_path(user) }
 
-    it { should have_content(user.email) }
-    it { should have_title(user.email) }
+    it { should have_title(user.first_name) }
+    it { should have_title(user.last_name) }
+    it { should have_selector('h1', text: user.first_name + " " + user.last_name) }
   end
 
   describe "index" do
-    before do
-      sign_in FactoryGirl.create(:user)
-      FactoryGirl.create(:user, email: "bob@example.com")
-      FactoryGirl.create(:user, email: "ben@example.com")
+    let(:user) { FactoryGirl.create(:user) }
+    before(:each) do
+      sign_in user
       visit users_index_path
     end
 
@@ -31,7 +31,7 @@ describe "User pages" do
 
       it "should list each user" do
         User.paginate(page: 1).each do |user|
-          expect(page).to have_selector('li', text: user.email)
+          page.should have_selector('li', text: user.first_name + " " + user.last_name)
         end
       end
     end
@@ -60,6 +60,8 @@ describe "User pages" do
 
   			it { should have_title('Sign up') }
   			it { should have_content('error') }
+        it { should have_content("First name can't be blank") }
+        it { should have_content("Last name can't be blank") }
   			it { should have_content("Email can't be blank") }
   			it { should have_content("Password can't be blank") }
   		end
@@ -67,6 +69,8 @@ describe "User pages" do
 
   	describe "with valid information" do
   		before do
+        fill_in "First name", with: "Example"
+        fill_in "Last name", with: "User"
   			fill_in "Email", with: "user@example.com"
   			fill_in "Password", with: "foobar"
   			fill_in "Password confirmation", with: "foobar"
@@ -80,8 +84,9 @@ describe "User pages" do
   			before { click_button submit }
   			let(:user) { User.find_by(email: 'user@example.com') }
 
+        it { should have_title(user.first_name) }
+        it { should have_title(user.last_name) }
         it { should have_link('Sign out') }
-  			it { should have_title(user.email) }
   			it { should have_content("Welcome! You have signed up successfully.") }
   		end
   	end
@@ -107,17 +112,35 @@ describe "User pages" do
     end
 
     describe "with valid information" do
+      let(:new_first_name) { "John" }
+      let(:new_last_name) { "Doe" }
       let(:new_email) { "new@example.com" }
+      let(:new_sex) { "Male" }
+      let(:new_bio) { "Hi, I am the Bboy King" }
       before do
+        fill_in "First name", with: new_first_name
+        fill_in "Last name", with: new_last_name
         fill_in "Email", with: new_email
+        select('6', :from => 'user_date_of_birth_3i')
+        select('February', :from => 'user_date_of_birth_2i')
+        select('1991', :from => 'user_date_of_birth_1i')
+        select(new_sex, :from => 'Sex')
+        fill_in "Bio", with: new_bio
         fill_in "Current password", with: user.password
         click_button "Save changes"
       end
 
-      it { should have_title(new_email) }
+      it { should have_title(new_first_name) }
+      it { should have_title(new_last_name) }
+      it { should have_selector('p', text: new_bio) }
       it { should have_content("You updated your account successfully.") }
       it { should have_link('Sign out', href: destroy_user_session_path) }
+      specify { expect(user.reload.first_name).to eq new_first_name }
+      specify { expect(user.reload.last_name).to eq new_last_name }
       specify { expect(user.reload.email).to eq new_email }
+      specify { expect(user.reload.date_of_birth).to eq Date.new(1991, 02, 06) }
+      specify { expect(user.reload.sex).to eq new_sex }
+      specify { expect(user.reload.bio).to eq new_bio }
     end
 
     describe "cancel my account" do

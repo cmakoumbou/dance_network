@@ -34,7 +34,7 @@ describe "Authentication" do
   		let(:user) { FactoryGirl.create(:user) }
   		before { valid_signin user }
 
-  		it { should have_title(user.email) }
+  		it { should have_title(user.first_name + " " + user.last_name) }
       it { should have_link('Users',       href: users_index_path) }
   		it { should have_link('Profile', href: user_root_path(user)) }
       it { should have_link('Settings', href: edit_user_registration_path) }
@@ -71,7 +71,7 @@ describe "Authentication" do
             end
 
             it "should render the default(profile) page" do
-              expect(page).to have_title(user.email)
+              expect(page).to have_title(user.first_name + " " + user.last_name)
             end
           end
         end
