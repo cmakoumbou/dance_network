@@ -37,16 +37,30 @@ class User < ActiveRecord::Base
                       :default_url => "/assets/avatars/default_avatar.png"
 
   validates :first_name, presence: true, length: { maximum: 50 }
+  
   validates :last_name, presence: true, length: { maximum: 50 }
+
   validates_date :date_of_birth, :between => [120.years.ago, Date.current],
                                   :invalid_date_message => "can't be blank",
                                   :on_or_before_message => "is not valid",
                                   :on_or_after_message => "is too old",
                                   :allow_blank => true
-  validates :sex, inclusion: { in: %w(Male Female) }, :allow_blank => true                  
+
+  validates :sex, inclusion: { in: ['Male', 'Female'] }, :allow_blank => true
+
   validates :bio, length: { maximum: 150 }
+
+  validates :city, inclusion: { in: ["Bath", "Birmingham", "Bradford", "Brighton", "Bristol",
+                    "Cambridge", "Canterbury", "Carlisle", "Chester", "Chichester", "Coventry", 
+                    "Derby", "Durham", "Ely", "Exeter", "Gloucester", "Hereford", "Hull",
+                    "Lancaster", "Leeds", "Leicester", "Lichfield", "Lincoln", "Liverpool",
+                    "London", "Manchester","Newcastle", "Norwich", "Nottingham", "Oxford",
+                    "Peterborough", "Plymouth", "Portsmouth","Preston", "Ripon", "Salford", 
+                    "Salisbury", "Sheffield", "Southampton", "St Albans", "Stoke-on-Trent",
+                    "Sunderland", "Truro", "Wakefield", "Wells", "Westminster","Wolverhampton",
+                    "Worcester", "York"] }, :allow_blank => true
+
   validates_attachment_size :avatar, :less_than => 10.megabytes
   validates_attachment_content_type :avatar, :content_type => /^image\/(jpg|jpeg|pjpeg|png|x-png)$/,
                         :message => "file type is not allowed (only jpeg and png images)"
-
 end

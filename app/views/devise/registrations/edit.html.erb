@@ -23,6 +23,10 @@
 
   <div><%= f.label :avatar %><br />
   <%= f.file_field :avatar %></div>
+
+  <div><%= f.label :city %><br />
+  <%= f.select :city, [["Bath","Bath"], ["Birmingham","Birmingham"], ["Bradford","Bradford"], ["Brighton","Brighton"], ["Bristol","Bristol"], ["Cambridge","Cambridge"], ["Canterbury","Canterbury"], ["Carlisle","Carlisle"], ["Chester","Chester"], ["Chichester","Chichester"], ["Coventry","Coventry"], ["Derby","Derby"], ["Durham","Durham"], ["Ely","Ely"], ["Exeter","Exeter"], ["Gloucester","Gloucester"], ["Hereford","Hereford"], ["Hull","Hull"], ["Lancaster","Lancaster"], ["Leeds","Leeds"], ["Leicester","Leicester"], ["Lichfield","Lichfield"], ["Lincoln","Lincoln"], ["Liverpool","Liverpool"], ["London","London"], ["Manchester","Manchester"], ["Newcastle","Newcastle"], ["Norwich","Norwich"], ["Nottingham","Nottingham"], ["Oxford","Oxford"], ["Peterborough","Peterborough"], ["Plymouth","Plymouth"], ["Portsmouth","Portsmouth"], ["Preston","Preston"], ["Ripon","Ripon"], ["Salford","Salford"], ["Salisbury","Salisbury"], ["Sheffield","Sheffield"], ["Southampton","Southampton"], ["St Albans","St Albans"], ["Stoke-on-Trent","Stoke-on-Trent"], ["Sunderland","Sunderland"], ["Truro","Truro"], ["Wakefield","Wakefield"], ["Wells","Wells"], ["Westminster","Westminster"], ["Wolverhampton","Wolverhampton"], ["Worcester","Worcester"], ["York","York"]], :include_blank => true %></div>
+
                             
   <div><%= f.label :email %><br />
   <%= f.email_field :email %></div>

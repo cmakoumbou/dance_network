@@ -33,7 +33,7 @@ describe User do
   before do
   @user = User.new(first_name: "Example", last_name: "User", email: "user@example.com",
     password: "foobar", password_confirmation: "foobar", date_of_birth: Date.today.years_ago(22).to_s,
-    sex: "Male", bio: "Hi, my name is Example User. I love the b-boy culture!",
+    sex: "Male", city: "Manchester", bio: "Hi, my name is Example User. I love the b-boy culture!",
     avatar: File.new(File.join(Rails.root, 'spec', 'support', 'images', 'myprofile.png')))
   end
 
@@ -48,8 +48,10 @@ describe User do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:date_of_birth) }
   it { should respond_to(:sex) }
+  it { should respond_to(:city) }
   it { should respond_to(:bio) }
   it { should respond_to(:avatar) }
+
   
   it { should be_valid }
 
@@ -103,6 +105,18 @@ describe User do
 
   describe "when sex is not an allowed value" do
     before { @user.sex = "Wrong" }
+    it { should_not be_valid }
+  end
+
+# == City
+
+  describe "when city is not present" do
+    before { @user.city = "" }
+    it { should be_valid }
+  end
+
+  describe "when city is not an allowed value" do
+    before { @user.city = "Wrong" }
     it { should_not be_valid }
   end
 

@@ -4,7 +4,12 @@
     <section>
       <p><%= image_tag @user.avatar.url(:thumb) %></p>
       <h1><%= @user.first_name %> <%= @user.last_name %></h1>
-      <p><%= @user.bio %></p>
+      <% if !@user.bio.blank? %>
+      	<p><%= @user.bio %></p>
+      <% end %>
+      <% if !@user.city.blank? %>
+      	<p><%= @user.city %></p>
+      <% end %>
     </section>
   </aside>
 </div>
