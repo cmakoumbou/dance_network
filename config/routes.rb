@@ -6,6 +6,7 @@ DanceNetwork::Application.routes.draw do
   root  'static_pages#home'
 
   get '/users/:id', to: 'users#show', as: :user_root
+  get '/users/index', to: 'users#index'
 
   match '/help',    to: 'static_pages#help',    via: 'get'
   match '/about',   to: 'static_pages#about',   via: 'get'
