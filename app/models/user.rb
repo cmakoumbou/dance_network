@@ -19,7 +19,11 @@
 #  last_name              :string(255)
 #  date_of_birth          :date
 #  sex                    :string(255)
-#  about_me               :text
+#  bio                    :text
+#  avatar_file_name       :string(255)
+#  avatar_content_type    :string(255)
+#  avatar_file_size       :integer
+#  avatar_updated_at      :datetime
 #
 
 class User < ActiveRecord::Base
@@ -28,6 +32,9 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "150x150>" },
+                      :default_url => "/assets/avatars/default_avatar.png"
 
   validates :first_name, presence: true, length: { maximum: 50 }
   validates :last_name, presence: true, length: { maximum: 50 }
@@ -38,4 +45,8 @@ class User < ActiveRecord::Base
                                   :allow_blank => true
   validates :sex, inclusion: { in: %w(Male Female) }, :allow_blank => true                  
   validates :bio, length: { maximum: 150 }
+  validates_attachment_size :avatar, :less_than => 10.megabytes
+  validates_attachment_content_type :avatar, :content_type => /^image\/(jpg|jpeg|pjpeg|png|x-png)$/,
+                        :message => "file type is not allowed (only jpeg and png images)"
+
 end

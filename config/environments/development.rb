@@ -27,6 +27,12 @@ DanceNetwork::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # Paperclip settings
+  config.paperclip_defaults = {
+    :url => "/system/#{Rails.env}/:class/:attachment/:id_partition/:style/:filename",
+    :path => ":rails_root/public/system/#{Rails.env}/:class/:attachment/:id_partition/:style/:filename"
+  }
+
   # Mailer
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end

@@ -3,6 +3,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
+require "paperclip/matchers"
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -42,4 +43,14 @@ RSpec.configure do |config|
 
   # Capybara
   config.include Capybara::DSL
+
+  # Paperclip
+  config.include Paperclip::Shoulda::Matchers
+
+  # Delete uploaded files after running tests
+  config.after(:all) do
+    if Rails.env.test?
+      FileUtils.rm_rf(Dir["#{Rails.root}/public/system/test/[^.]*"])
+    end
+  end
 end

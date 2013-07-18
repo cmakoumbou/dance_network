@@ -33,4 +33,10 @@ DanceNetwork::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  # Paperclip settings
+  config.paperclip_defaults = {
+    :url => "/system/#{Rails.env}/:class/:attachment/:id_partition/:style/:filename",
+    :path => ":rails_root/public/system/#{Rails.env}/:class/:attachment/:id_partition/:style/:filename"
+  }
 end

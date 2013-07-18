@@ -2,6 +2,7 @@
 <div class="row">
   <aside class="span4">
     <section>
+      <p><%= image_tag @user.avatar.url(:thumb) %></p>
       <h1><%= @user.first_name %> <%= @user.last_name %></h1>
       <p><%= @user.bio %></p>
     </section>

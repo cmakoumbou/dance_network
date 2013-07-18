@@ -11,6 +11,7 @@ describe "User pages" do
     it { should have_title(user.first_name) }
     it { should have_title(user.last_name) }
     it { should have_selector('h1', text: user.first_name + " " + user.last_name) }
+    it { should have_css("img[src*='default_avatar']") }
   end
 
   describe "index" do
@@ -117,6 +118,7 @@ describe "User pages" do
       let(:new_email) { "new@example.com" }
       let(:new_sex) { "Male" }
       let(:new_bio) { "Hi, I am the Bboy King" }
+      let(:new_avatar) { File.join(Rails.root, 'spec', 'support', 'images', 'mypicture.png') }
       before do
         fill_in "First name", with: new_first_name
         fill_in "Last name", with: new_last_name
@@ -126,6 +128,7 @@ describe "User pages" do
         select('1991', :from => 'user_date_of_birth_1i')
         select(new_sex, :from => 'Sex')
         fill_in "Bio", with: new_bio
+        attach_file('Avatar', new_avatar)
         fill_in "Current password", with: user.password
         click_button "Save changes"
       end
@@ -133,6 +136,7 @@ describe "User pages" do
       it { should have_title(new_first_name) }
       it { should have_title(new_last_name) }
       it { should have_selector('p', text: new_bio) }
+      it { should have_css("img[src*='mypicture']") }
       it { should have_content("You updated your account successfully.") }
       it { should have_link('Sign out', href: destroy_user_session_path) }
       specify { expect(user.reload.first_name).to eq new_first_name }
@@ -141,6 +145,7 @@ describe "User pages" do
       specify { expect(user.reload.date_of_birth).to eq Date.new(1991, 02, 06) }
       specify { expect(user.reload.sex).to eq new_sex }
       specify { expect(user.reload.bio).to eq new_bio }
+      specify { expect(user.reload.avatar_file_name).to eq 'mypicture.png' }
     end
 
     describe "cancel my account" do

@@ -19,18 +19,23 @@
 #  last_name              :string(255)
 #  date_of_birth          :date
 #  sex                    :string(255)
-#  about_me               :text
+#  bio                    :text
+#  avatar_file_name       :string(255)
+#  avatar_content_type    :string(255)
+#  avatar_file_size       :integer
+#  avatar_updated_at      :datetime
 #
 
 require 'spec_helper'
 
 describe User do
 
-    before do
-    @user = User.new(first_name: "Example", last_name: "User", email: "user@example.com",
-        password: "foobar", password_confirmation: "foobar", date_of_birth: Date.today.years_ago(22).to_s,
-        sex: "Male", bio: "Hi, my name is Example User. I love the b-boy culture!")
-  	end
+  before do
+  @user = User.new(first_name: "Example", last_name: "User", email: "user@example.com",
+    password: "foobar", password_confirmation: "foobar", date_of_birth: Date.today.years_ago(22).to_s,
+    sex: "Male", bio: "Hi, my name is Example User. I love the b-boy culture!",
+    avatar: File.new(File.join(Rails.root, 'spec', 'support', 'images', 'myprofile.png')))
+  end
 
 	subject { @user }
 
@@ -44,6 +49,7 @@ describe User do
   it { should respond_to(:date_of_birth) }
   it { should respond_to(:sex) }
   it { should respond_to(:bio) }
+  it { should respond_to(:avatar) }
   
   it { should be_valid }
 
@@ -111,4 +117,15 @@ describe User do
     before { @user.bio = "c" * 151 }
     it { should_not be_valid }
   end
+
+# == Avatar
+
+  it { should have_attached_file(:avatar) }
+
+  it { should validate_attachment_content_type(:avatar).
+                allowing('image/png', 'image/x-png', 'image/jpg',
+                  'image/jpeg', 'image/pjpeg').
+                rejecting('text/plain', 'text/xml') }
+
+  it { should validate_attachment_size(:avatar).less_than(10.megabytes) }
 end
