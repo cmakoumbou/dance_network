@@ -36,9 +36,11 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "150x150>" },
                       :default_url => "/assets/avatars/default_avatar.png"
 
-  validates :first_name, presence: true, length: { maximum: 50 }
+  before_save { username.downcase! }
+
+  validates :first_name, length: { maximum: 50 }
   
-  validates :last_name, presence: true, length: { maximum: 50 }
+  validates :last_name, length: { maximum: 50 }
 
   validates_date :date_of_birth, :between => [120.years.ago, Date.current],
                                   :invalid_date_message => "can't be blank",
@@ -63,4 +65,7 @@ class User < ActiveRecord::Base
   validates_attachment_size :avatar, :less_than => 10.megabytes
   validates_attachment_content_type :avatar, :content_type => /^image\/(jpg|jpeg|pjpeg|png|x-png)$/,
                         :message => "file type is not allowed (only jpeg and png images)"
+
+  validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 25 },
+    format: { with: /\A[A-Za-z\d_]+\z/, message: "is not valid. Only letters, digits and underscores are allowed" } 
 end

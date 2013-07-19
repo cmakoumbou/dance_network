@@ -31,10 +31,10 @@ require 'spec_helper'
 describe User do
 
   before do
-  @user = User.new(first_name: "Example", last_name: "User", email: "user@example.com",
+  @user = User.new(first_name: "Example", last_name: "User", email: "user@example.com", 
     password: "foobar", password_confirmation: "foobar", date_of_birth: Date.today.years_ago(22).to_s,
     sex: "Male", city: "Manchester", bio: "Hi, my name is Example User. I love the b-boy culture!",
-    avatar: File.new(File.join(Rails.root, 'spec', 'support', 'images', 'myprofile.png')))
+    avatar: File.new(File.join(Rails.root, 'spec', 'support', 'images', 'myprofile.png')), username: "Sample")
   end
 
 	subject { @user }
@@ -51,6 +51,7 @@ describe User do
   it { should respond_to(:city) }
   it { should respond_to(:bio) }
   it { should respond_to(:avatar) }
+  it { should respond_to(:username) }
 
   
   it { should be_valid }
@@ -59,7 +60,7 @@ describe User do
 
   describe "when first name is not present" do
     before { @user.first_name = "" }
-    it { should_not be_valid }
+    it { should be_valid }
   end
 
   describe "when first name is too long" do
@@ -71,7 +72,7 @@ describe User do
 
   describe "when last name is not present" do
     before { @user.last_name = "" }
-    it { should_not be_valid }
+    it { should be_valid }
   end
 
   describe "when last name is too long" do
@@ -142,4 +143,46 @@ describe User do
                 rejecting('text/plain', 'text/xml') }
 
   it { should validate_attachment_size(:avatar).less_than(10.megabytes) }
+
+# == Username
+
+  describe "when username is not present" do
+    before { @user.username = "" }
+    it { should_not be_valid }
+  end
+
+  describe "when username is invalid" do
+    it "should be invalid" do
+      usernames = %w[@user user..lol user-name* user@user.com]
+      usernames.each do |invalid_usernames|
+        @user.username = invalid_usernames
+        @user.should_not be_valid
+      end
+    end
+  end
+
+  describe "when username is valid" do
+    it "should be valid" do
+      usernames = %w[Username _User56 usEr_nAme username56_]
+      usernames.each do |valid_address|
+        @user.username = valid_address
+        @user.should be_valid
+      end
+    end
+  end
+
+  describe "when username is already taken" do
+    before do
+      user_with_same_username = @user.dup
+      user_with_same_username.username = @user.username.upcase
+      user_with_same_username.save
+    end
+
+    it { should_not be_valid }
+  end
+
+  describe "when username is too long" do
+    before { @user.username = "a" * 26 }
+    it { should_not be_valid }
+  end
 end

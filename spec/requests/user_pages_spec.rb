@@ -8,9 +8,8 @@ describe "User pages" do
     let(:user) { FactoryGirl.create(:user) }
     before { visit user_root_path(user) }
 
-    it { should have_title(user.first_name) }
-    it { should have_title(user.last_name) }
-    it { should have_selector('h1', text: user.first_name + " " + user.last_name) }
+    it { should have_title(user.username) }
+    it { should have_selector('h1', text: user.username) }
     it { should have_css("img[src*='default_avatar']") }
   end
 
@@ -32,7 +31,7 @@ describe "User pages" do
 
       it "should list each user" do
         User.paginate(page: 1).each do |user|
-          page.should have_selector('li', text: user.first_name + " " + user.last_name)
+          page.should have_selector('li', text: user.username)
         end
       end
     end
@@ -61,8 +60,7 @@ describe "User pages" do
 
   			it { should have_title('Sign up') }
   			it { should have_content('error') }
-        it { should have_content("First name can't be blank") }
-        it { should have_content("Last name can't be blank") }
+        it { should have_content("Username can't be blank") }
   			it { should have_content("Email can't be blank") }
   			it { should have_content("Password can't be blank") }
   		end
@@ -70,8 +68,7 @@ describe "User pages" do
 
   	describe "with valid information" do
   		before do
-        fill_in "First name", with: "Example"
-        fill_in "Last name", with: "User"
+        fill_in "Username", with: "superbboy"
   			fill_in "Email", with: "user@example.com"
   			fill_in "Password", with: "foobar"
   			fill_in "Password confirmation", with: "foobar"
@@ -85,8 +82,7 @@ describe "User pages" do
   			before { click_button submit }
   			let(:user) { User.find_by(email: 'user@example.com') }
 
-        it { should have_title(user.first_name) }
-        it { should have_title(user.last_name) }
+        it { should have_title(user.username) }
         it { should have_link('Sign out') }
   			it { should have_content("Welcome! You have signed up successfully.") }
   		end
@@ -116,6 +112,7 @@ describe "User pages" do
       let(:new_first_name) { "John" }
       let(:new_last_name) { "Doe" }
       let(:new_email) { "new@example.com" }
+      let(:new_username) { "bboy_example" }
       let(:new_sex) { "Male" }
       let(:new_bio) { "Hi, I am the Bboy King" }
       let(:new_city) { "Sheffield" }
@@ -124,6 +121,7 @@ describe "User pages" do
         fill_in "First name", with: new_first_name
         fill_in "Last name", with: new_last_name
         fill_in "Email", with: new_email
+        fill_in "Username", with: new_username
         select('6', :from => 'user_date_of_birth_3i')
         select('February', :from => 'user_date_of_birth_2i')
         select('1991', :from => 'user_date_of_birth_1i')
@@ -135,8 +133,7 @@ describe "User pages" do
         click_button "Save changes"
       end
 
-      it { should have_title(new_first_name) }
-      it { should have_title(new_last_name) }
+      it { should have_title(new_username) }
       it { should have_selector('p', text: new_bio) }
       it { should have_selector('p', text: new_city) }
       it { should have_css("img[src*='mypicture']") }
@@ -145,6 +142,7 @@ describe "User pages" do
       specify { expect(user.reload.first_name).to eq new_first_name }
       specify { expect(user.reload.last_name).to eq new_last_name }
       specify { expect(user.reload.email).to eq new_email }
+      specify { expect(user.reload.username).to eq new_username }
       specify { expect(user.reload.date_of_birth).to eq Date.new(1991, 02, 06) }
       specify { expect(user.reload.sex).to eq new_sex }
       specify { expect(user.reload.bio).to eq new_bio }
