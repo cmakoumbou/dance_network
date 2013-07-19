@@ -38,9 +38,9 @@ class User < ActiveRecord::Base
 
   before_save { username.downcase! }
 
-  validates :first_name, length: { maximum: 50 }
+  validates :first_name, presence: true, length: { maximum: 50 }
   
-  validates :last_name, length: { maximum: 50 }
+  validates :last_name, presence: true, length: { maximum: 50 }
 
   validates_date :date_of_birth, :between => [120.years.ago, Date.current],
                                   :invalid_date_message => "can't be blank",

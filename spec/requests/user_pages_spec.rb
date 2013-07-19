@@ -8,8 +8,8 @@ describe "User pages" do
     let(:user) { FactoryGirl.create(:user) }
     before { visit user_root_path(user) }
 
-    it { should have_title(user.username) }
-    it { should have_selector('h1', text: user.username) }
+    it { should have_title(user.first_name + " " + user.last_name) }
+    it { should have_selector('h1', text: user.first_name + " " + user.last_name) }
     it { should have_css("img[src*='default_avatar']") }
   end
 
@@ -31,7 +31,7 @@ describe "User pages" do
 
       it "should list each user" do
         User.paginate(page: 1).each do |user|
-          page.should have_selector('li', text: user.username)
+          page.should have_selector('li', text: user.first_name + " " + user.last_name)
         end
       end
     end
@@ -60,6 +60,8 @@ describe "User pages" do
 
   			it { should have_title('Sign up') }
   			it { should have_content('error') }
+        it { should have_content("First name can't be blank") }
+        it { should have_content("Last name can't be blank") }
         it { should have_content("Username can't be blank") }
   			it { should have_content("Email can't be blank") }
   			it { should have_content("Password can't be blank") }
@@ -68,6 +70,8 @@ describe "User pages" do
 
   	describe "with valid information" do
   		before do
+        fill_in "First name", with: "Example"
+        fill_in "Last name", with: "User"
         fill_in "Username", with: "superbboy"
   			fill_in "Email", with: "user@example.com"
   			fill_in "Password", with: "foobar"
@@ -82,7 +86,7 @@ describe "User pages" do
   			before { click_button submit }
   			let(:user) { User.find_by(email: 'user@example.com') }
 
-        it { should have_title(user.username) }
+        it { should have_title(user.first_name + " " + user.last_name) }
         it { should have_link('Sign out') }
   			it { should have_content("Welcome! You have signed up successfully.") }
   		end
@@ -136,7 +140,7 @@ describe "User pages" do
         click_button "Save changes"
       end
 
-      it { should have_title(new_username) }
+      it { should have_title(new_first_name + " " + new_last_name) }
       it { should have_selector('p', text: new_bio) }
       it { should have_selector('p', text: new_city) }
       it { should have_css("img[src*='mypicture']") }

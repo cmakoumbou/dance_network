@@ -60,7 +60,7 @@ describe User do
 
   describe "when first name is not present" do
     before { @user.first_name = "" }
-    it { should be_valid }
+    it { should_not be_valid }
   end
 
   describe "when first name is too long" do
@@ -72,7 +72,7 @@ describe User do
 
   describe "when last name is not present" do
     before { @user.last_name = "" }
-    it { should be_valid }
+    it { should_not be_valid }
   end
 
   describe "when last name is too long" do
