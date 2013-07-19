@@ -102,10 +102,14 @@ describe "User pages" do
     end
 
     describe "with invalid information" do
-      before { click_button "Save changes" }
+      let(:invalid_first_name) { "c" * 60 }
+      before do
+        fill_in "First name", with: invalid_first_name
+        click_button "Save changes"
+      end
 
       it { should have_content('error') }
-      it { should have_content("Current password can't be blank") }
+      it { should have_content("First name is too long") }
     end
 
     describe "with valid information" do
@@ -129,7 +133,6 @@ describe "User pages" do
         fill_in "Bio", with: new_bio
         select('Sheffield', :from => 'City')
         attach_file('Avatar', new_avatar)
-        fill_in "Current password", with: user.password
         click_button "Save changes"
       end
 
