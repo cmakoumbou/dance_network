@@ -78,9 +78,4 @@ DanceNetwork::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  # Paperclip settings
-  config.paperclip_defaults = {
-    :url => "/system/#{Rails.env}/:class/:attachment/:id_partition/:style/:filename",
-    :path => ":rails_root/public/system/#{Rails.env}/:class/:attachment/:id_partition/:style/:filename"
-  }
 end
