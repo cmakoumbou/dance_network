@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "150x150>" },
-                      :default_url => "/assets/avatars/default_avatar.png"
+                      :default_url => "/assets/avatar.png"
 
   before_save { username.downcase! }
 

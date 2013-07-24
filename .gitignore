@@ -12,6 +12,9 @@
 # Ignore the default config/database file
 config/database.yml
 
+# Ignore pictures uploaded in dev and test
+public/system
+
 # Ignore other unneeded files.
 doc/
 *.swp
