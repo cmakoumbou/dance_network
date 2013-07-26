@@ -52,7 +52,8 @@ describe User do
   it { should respond_to(:bio) }
   it { should respond_to(:avatar) }
   it { should respond_to(:username) }
-
+  it { should respond_to(:textposts) }
+  it { should respond_to(:feed) }
   
   it { should be_valid }
 
@@ -184,5 +185,41 @@ describe User do
   describe "when username is too long" do
     before { @user.username = "a" * 26 }
     it { should_not be_valid }
+  end
+
+# == Textpost
+
+  describe "textpost associations" do
+
+    before { @user.save }
+    let!(:older_textpost) do
+      FactoryGirl.create(:textpost, user: @user, created_at: 1.day.ago)
+    end
+    let!(:newer_textpost) do
+      FactoryGirl.create(:textpost, user: @user, created_at: 1.hour.ago)
+    end
+
+    it "should have the right textposts in the right order" do
+      expect(@user.textposts.to_a).to eq [newer_textpost, older_textpost]
+    end
+
+    it "should destroy associated textposts" do
+      textposts = @user.textposts.to_a
+      @user.destroy
+      expect(textposts).not_to be_empty
+      textposts.each do |textpost|
+        expect(Textpost.where(id: textpost.id)).to be_empty
+      end
+    end
+
+    describe "status" do
+      let(:unfollowed_post) do
+        FactoryGirl.create(:textpost, user: FactoryGirl.create(:user))
+      end
+
+      its(:feed) { should include(newer_textpost) }
+      its(:feed) { should include(older_textpost) }
+      its(:feed) { should_not include(unfollowed_post) }
+    end
   end
 end

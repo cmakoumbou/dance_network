@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130719005954) do
+ActiveRecord::Schema.define(version: 20130724203226) do
+
+  create_table "textposts", force: true do |t|
+    t.string   "content"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "textposts", ["user_id", "created_at"], name: "index_textposts_on_user_id_and_created_at", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

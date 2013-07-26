@@ -28,5 +28,11 @@ namespace :db do
                    bio: bio,
                    :city => @cities[rand(7)].to_s)
     end
+
+    users = User.all(limit: 6)
+    50.times do
+      content = Faker::Lorem.sentence(5)
+      users.each { |user| user.textposts.create!(content: content) }
+    end
   end
 end

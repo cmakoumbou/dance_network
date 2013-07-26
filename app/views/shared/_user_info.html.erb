@@ -1,0 +1,6 @@
+<a href="<%= user_root_path(current_user) %>">
+	<%= image_tag current_user.avatar.url(:thumb) %>
+</a>
+<h1><%= current_user.first_name %> <%= current_user.last_name %></h1>
+<span><%= link_to "view my profile", user_root_path(current_user) %></span>
+<span><%= pluralize(current_user.textposts.count, "textpost") %></span>

@@ -2,7 +2,7 @@
 <div class="row">
   <aside class="span4">
     <section>
-      <p><%= image_tag @user.avatar.url(:thumb) %></p>
+      <%= image_tag @user.avatar.url(:thumb) %>
       <h1><%= @user.first_name %> <%= @user.last_name %></h1>
       <% if !@user.bio.blank? %>
       	<p><%= @user.bio %></p>
@@ -12,4 +12,13 @@
       <% end %>
     </section>
   </aside>
+  <div class="span8">
+    <% if @user.textposts.any? %>
+      <h3>textposts (<%= @user.textposts.count %>)</h3>
+      <ol class="textposts">
+        <%= render @textposts %>
+      </ol>
+      <%= will_paginate @textposts %>
+    <% end %>
+  </div>
 </div>

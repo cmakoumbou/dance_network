@@ -6,11 +6,20 @@ describe "User pages" do
 
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
+    let!(:t1) { FactoryGirl.create(:textpost, user: user, content: "Foo") }
+    let!(:t2) { FactoryGirl.create(:textpost, user: user, content: "Bar") }
+
     before { visit user_root_path(user) }
 
     it { should have_title(user.first_name + " " + user.last_name) }
     it { should have_selector('h1', text: user.first_name + " " + user.last_name) }
-    it { should have_css("img[src*='default_avatar']") }
+    it { should have_css("img[src*='avatar']") }
+
+    describe "textposts" do
+      it { should have_content(t1.content) }
+      it { should have_content(t2.content) }
+      it { should have_content(user.textposts.count) }
+    end
   end
 
   describe "index" do

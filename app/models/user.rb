@@ -27,6 +27,8 @@
 #
 
 class User < ActiveRecord::Base
+  has_many :textposts, dependent: :destroy
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -68,4 +70,8 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 25 },
     format: { with: /\A[A-Za-z\d_]+\z/, message: "is not valid. Only letters, digits and underscores are allowed" } 
+
+  def feed
+    Textpost.where("user_id = ?", id)
+  end
 end

@@ -9,4 +9,8 @@ module ApplicationHelper
       "#{base_title} | #{page_title}"
     end
   end
+
+  def current_user?(user)
+  	user == current_user
+  end
 end
