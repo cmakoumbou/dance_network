@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "TextpostPages" do
+	
 	subject { page }
 
 	let(:user) { FactoryGirl.create(:user) }

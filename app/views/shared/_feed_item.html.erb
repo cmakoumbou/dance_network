@@ -1,5 +1,5 @@
 <li id="<%= feed_item.id %>">
-  <a href="<%= user_root_path(current_user) %>">
+  <a href="<%= user_root_path(feed_item.user) %>">
   	<%= image_tag feed_item.user.avatar.url(:thumb) %>
   </a>
   <span class="user">

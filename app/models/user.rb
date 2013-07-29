@@ -27,13 +27,13 @@
 #
 
 class User < ActiveRecord::Base
-  has_many :textposts, dependent: :destroy
-
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+         
+  has_many :textposts, dependent: :destroy
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "150x150>" },
                       :default_url => "/images/avatar.png"
