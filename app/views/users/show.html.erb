@@ -13,6 +13,7 @@
     </section>
   </aside>
   <div class="span8">
+    <%= render 'follow_form' if user_signed_in? %>
     <% if @user.textposts.any? %>
       <h3>textposts (<%= @user.textposts.count %>)</h3>
       <ol class="textposts">
