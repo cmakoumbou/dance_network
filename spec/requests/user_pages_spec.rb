@@ -6,6 +6,7 @@ describe "User pages" do
 
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
+    let(:wrong_user) { FactoryGirl.create(:user) }
     let!(:t1) { FactoryGirl.create(:textpost, user: user, content: "Foo") }
     let!(:t2) { FactoryGirl.create(:textpost, user: user, content: "Bar") }
 
@@ -19,6 +20,12 @@ describe "User pages" do
       it { should have_content(t1.content) }
       it { should have_content(t2.content) }
       it { should have_content(user.textposts.count) }
+    end
+
+    describe "visiting another users profile" do
+      before { visit user_root_path(wrong_user) }
+
+      it { should_not have_link('delete') }
     end
   end
 

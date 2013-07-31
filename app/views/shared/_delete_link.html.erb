@@ -1,0 +1,5 @@
+<% if current_user?(each_post.user) %>
+	<%= link_to "delete", each_post, method: :delete,
+                                     data: { confirm: "You sure?" },
+                                     title: wrap(each_post.content) %>
+<% end %>

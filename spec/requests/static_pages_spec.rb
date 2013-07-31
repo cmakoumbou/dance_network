@@ -21,14 +21,31 @@ describe "Static pages" do
       let(:user) { FactoryGirl.create(:user) }
       before do
         FactoryGirl.create(:textpost, user: user, content: "Lorem ipsum")
-        FactoryGirl.create(:textpost, user: user, content: "Dolor sit amet")
+        #FactoryGirl.create(:textpost, user: user, content: "Dolor sit amet")
         sign_in user
         visit root_path
       end
 
-      it "should render the user's feed" do
-        user.feed.each do |item|
-          expect(page).to have_selector("li##{item.id}", text: item.content)
+      it { should have_content('1 textpost') }
+
+      describe "with multiple textposts" do
+        before do
+          29.times { FactoryGirl.create(:textpost, user: user, content: "Dolor sit amet") }
+          visit root_path
+        end
+
+        it { should have_content('30 textposts') }
+
+        it "should render the user's feed" do
+          user.feed.each do |item|
+            expect(page).to have_selector("li##{item.id}", text: item.content)
+          end
+        end
+
+        it "should paginate the feed" do
+          5.times { FactoryGirl.create(:textpost, user: user, content: "Consectetur adipiscing elit") }
+          visit root_path
+          expect(page).to have_selector('div.pagination')
         end
       end
     end

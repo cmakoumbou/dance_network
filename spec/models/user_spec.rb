@@ -33,8 +33,7 @@ describe User do
   before do
   @user = User.new(first_name: "Example", last_name: "User", email: "user@example.com", 
     password: "foobar", password_confirmation: "foobar", date_of_birth: Date.today.years_ago(22).to_s,
-    sex: "Male", city: "Manchester", bio: "Hi, my name is Example User. I love the b-boy culture!",
-    avatar: File.new(File.join(Rails.root, 'spec', 'support', 'images', 'myprofile.png')), username: "Sample")
+    sex: "Male", city: "Manchester", bio: "Hi, my name is Example User. I love the b-boy culture!", username: "Sample")
   end
 
 	subject { @user }
