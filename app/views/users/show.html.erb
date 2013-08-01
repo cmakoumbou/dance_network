@@ -11,6 +11,9 @@
       	<p><%= @user.city %></p>
       <% end %>
     </section>
+    <section>
+      <%= render 'shared/stats' %>
+    </section>
   </aside>
   <div class="span8">
     <%= render 'follow_form' if user_signed_in? %>

@@ -2,10 +2,7 @@
 <div class="row">
   <aside class="span4">
     <section>
-      <%= image_tag @user.avatar.url(:thumb) %>
-      <h1><%= @user.first_name %> <%= @user.last_name %></h1>
-      <span><%= link_to "view my profile", user_root_path(@user) %></span>
-      <span><b>Textposts:</b> <%= @user.textposts.count %></span>
+      <%= render 'shared/user_info', current_user: @user %>
     </section>
     <section>
       <%= render 'shared/stats' %>
