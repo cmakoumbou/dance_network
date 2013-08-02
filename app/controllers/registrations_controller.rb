@@ -21,6 +21,17 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def destroy
+    @user = User.find(current_user.id)
+    if @user.destroy_with_password(params[:current_password])
+      set_flash_message :notice, :destroyed
+      sign_out @user
+      redirect_to after_sign_out_path_for(@user)
+    else
+      render "edit"
+    end
+  end
+
   private
 
     # check if we need password to update user data
