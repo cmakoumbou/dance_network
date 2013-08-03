@@ -223,6 +223,7 @@ describe "User pages" do
 
       it "should delete user" do
         expect do
+          fill_in "current_password", with: user.password
           click_button "Cancel my account"
         end.to change(User, :count).by(-1)
       end
