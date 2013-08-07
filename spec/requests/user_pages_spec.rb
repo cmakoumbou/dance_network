@@ -9,6 +9,8 @@ describe "User pages" do
     let(:wrong_user) { FactoryGirl.create(:user) }
     let!(:t1) { FactoryGirl.create(:textpost, user: user, content: "Foo") }
     let!(:t2) { FactoryGirl.create(:textpost, user: user, content: "Bar") }
+    let!(:c1) { FactoryGirl.create(:comment, textpost: t1, user: user, content: "Hello") }
+    let!(:c2) { FactoryGirl.create(:comment, textpost: t2, user: user, content: "Goodbye") }
 
     before { visit user_root_path(user) }
 
@@ -16,9 +18,11 @@ describe "User pages" do
     it { should have_selector('h1', text: user.first_name + " " + user.last_name) }
     it { should have_css("img[src*='avatar']") }
 
-    describe "textposts" do
+    describe "textposts and comments" do
       it { should have_content(t1.content) }
+      it { should have_content(c1.content) }
       it { should have_content(t2.content) }
+      it { should have_content(c2.content) }
       it { should have_content(user.textposts.count) }
     end
 

@@ -4,6 +4,7 @@ namespace :db do
     make_users
     make_textposts
     make_relationships
+    make_comments
   end
 end
 
@@ -51,4 +52,12 @@ def make_relationships
   followers      = users[3..40]
   followed_users.each { |followed| user.follow!(followed) }
   followers.each      { |follower| follower.follow!(user) }
+end
+
+def make_comments
+  users = User.all(limit: 6)
+  50.times do 
+    content = Faker::Lorem.sentence(5)
+    users.each { |user| user.comments.create!(content: content, textpost_id: rand(300)) }
+  end
 end

@@ -60,6 +60,7 @@ describe User do
   it { should respond_to(:unfollow!) }
   it { should respond_to(:reverse_relationships) }
   it { should respond_to(:followers) }
+  it { should respond_to(:comments) }
   
   it { should be_valid }
 

@@ -12,4 +12,10 @@ FactoryGirl.define do
   	content "Lorem ipsum"
   	user
   end
+
+  factory :comment do
+    content "Hello World!"
+    user
+    textpost
+  end
 end
