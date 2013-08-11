@@ -4,9 +4,6 @@ describe Comment do
 
   let(:user) { FactoryGirl.create(:user) }
   let(:textpost) { FactoryGirl.create(:textpost, user: user) }
-  before do
-  	@comment = Comment.new(content: "Hello World!", user_id: user.id, textpost_id: textpost.id)
-  end
   before do 
   	@comment = textpost.comments.build(content: "Hello World")
   	@comment.user = user

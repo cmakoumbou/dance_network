@@ -5,6 +5,7 @@ describe "TextpostPages" do
 	subject { page }
 
 	let(:user) { FactoryGirl.create(:user) }
+	let(:textpost) { FactoryGirl.create(:textpost, user: user) }
 	before { sign_in user }
 
 	describe "textpost creation" do
@@ -42,4 +43,16 @@ describe "TextpostPages" do
 			end
 		end
 	end
+
+	describe "comment destruction" do
+		before { FactoryGirl.create(:comment, textpost: textpost, user: user) }
+
+		describe "as correct user" do
+			before { visit root_path }
+
+		    it "should delete a comment" do
+		    	expect { first(:link, 'delete_comment').click }.to change(Comment, :count).by(-1)
+		    end
+		end
+    end
 end

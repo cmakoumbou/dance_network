@@ -1,7 +1,9 @@
 DanceNetwork::Application.routes.draw do
   devise_for :users, :controllers => { :registrations => "registrations" }
  
-  resources :textposts, only: [:create, :destroy]
+  resources :textposts, only: [:create, :destroy] do
+    resources :comments, only: [:create, :destroy]
+  end
   resources :relationships, only: [:create, :destroy]
   
   root  'static_pages#home'

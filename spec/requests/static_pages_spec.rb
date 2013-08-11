@@ -19,14 +19,16 @@ describe "Static pages" do
 
     describe "for signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
+      let(:textpost) { FactoryGirl.create(:textpost, user: user, content: "Lorem ipsum") }
       before do
-        FactoryGirl.create(:textpost, user: user, content: "Lorem ipsum")
         #FactoryGirl.create(:textpost, user: user, content: "Dolor sit amet")
+        FactoryGirl.create(:comment, textpost: textpost, user: user, content: "Hello, this is my comment")
         sign_in user
         visit root_path
       end
 
       it { should have_content('1 textpost') }
+      it { should have_content('Hello, this is my comment') }
 
       describe "with multiple textposts" do
         before do

@@ -119,6 +119,7 @@ describe "Authentication" do
       end
 
       describe "in the Relationships controller" do
+
         describe "submitting to the create action" do
           before { post relationships_path }
           specify { expect(response).to redirect_to(new_user_session_path) }
@@ -126,6 +127,19 @@ describe "Authentication" do
 
         describe "submitting to the destroy action" do
           before { delete relationship_path(1) }
+          specify { expect(response).to redirect_to(new_user_session_path) }
+        end
+      end
+
+      describe "in the Comments controller" do
+
+        describe "submitting to the create action" do
+          before { post textpost_comments_path(1) }
+          specify { expect(response).to redirect_to(new_user_session_path) }
+        end
+
+        describe "submitting to the destroy action" do
+          before { delete textpost_comment_path(1, FactoryGirl.create(:comment)) }
           specify { expect(response).to redirect_to(new_user_session_path) }
         end
       end

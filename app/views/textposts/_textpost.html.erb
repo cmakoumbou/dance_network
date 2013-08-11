@@ -1,8 +1,9 @@
-<li>
+<li id="textpost_<%= textpost.id %>">
   <span class="content"><%= wrap(textpost.content) %></span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(textpost.created_at) %> ago.
   </span>
   <%= render 'shared/delete_link', each_post: textpost %>
   <%= render textpost.comments %>
+  <%= render 'shared/comment_form', textpost: textpost %>
 </li>

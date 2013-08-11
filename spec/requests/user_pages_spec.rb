@@ -26,6 +26,25 @@ describe "User pages" do
       it { should have_content(user.textposts.count) }
     end
 
+    describe "comment creation" do
+      before { sign_in user }
+
+      describe "with invalid information" do
+
+        it "should not create a comment" do
+          expect { first(:button, 'Post comment').click }.not_to change(Comment, :count)
+        end
+      end
+
+      describe "with valid information" do
+
+        before { first(:field, 'comment_content').set 'Hello' }
+        it "should create a comment" do
+          expect { first(:button, 'Post comment').click }.to change(Comment, :count).by(1)
+        end
+      end
+    end
+
     describe "visiting another users profile" do
       before { visit user_root_path(wrong_user) }
 

@@ -1,0 +1,6 @@
+<%= form_for [textpost, @comment] do |f| %>
+	<div class="field">
+		<%= f.text_area :content, placeholder: "Compose new comment...." %>
+	</div>
+	<%= f.submit "Post comment" %>
+<% end %>

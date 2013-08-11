@@ -2,3 +2,8 @@
 <span class="timestamp" style="background:#dff0d8">
 Comment posted by <%= comment.user.first_name %> <%= comment.user.last_name %> <%= time_ago_in_words(comment.created_at) %> ago.
 </span>
+<% if current_user?(comment.user) %>
+	<%= link_to "delete", textpost_comment_path(comment.textpost, comment), method: :delete,
+                                     data: { confirm: "You sure?" },
+                                     title: wrap(comment.content), id: "delete_comment" %>
+<% end %>
