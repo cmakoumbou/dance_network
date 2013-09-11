@@ -1,0 +1,14 @@
+<% provide(:title, 'Show message') %>
+
+<h2>Show message</h2>
+
+<ol class="textposts">
+  <%= render partial: 'conversation', collection: @conversation %>
+</ol>
+
+<%= form_for ActsAsMessageable::Message.new, :url => reply_message_path(@message), :method => :post do |f| %>
+
+  <%= f.text_area :body %>
+  <%= f.submit "Reply" %>
+
+<% end %>

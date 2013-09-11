@@ -45,6 +45,8 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "150x150>" },
                       :default_url => "/images/avatar.png"
 
+  acts_as_messageable :required => :body
+
   before_save { username.downcase! }
 
   validates :first_name, presence: true, length: { maximum: 50 }

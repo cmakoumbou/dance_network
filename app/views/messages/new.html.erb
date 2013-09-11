@@ -1,0 +1,15 @@
+<% provide(:title, 'New message') %>
+
+<h2>New message</h2>
+
+<%= form_for :message, :url => messages_path, :method => :post do |f| %>
+
+  <%= f.label :to, "Username" %>
+  <%= f.text_field :to %>
+
+  <%= f.label :body %>
+  <%= f.text_area :body %>
+
+  <%= f.submit "Send message" %>
+
+<% end %>

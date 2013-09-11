@@ -36,6 +36,8 @@ describe "Authentication" do
 
   		it { should have_title(user.first_name + " " + user.last_name) }
       it { should have_link('Users',       href: users_index_path) }
+      it { should have_link('Inbox', href: messages_path) }
+      it { should have_link('Send a message', href: new_message_path) }
   		it { should have_link('Profile', href: user_root_path(user)) }
       it { should have_link('Settings', href: edit_user_registration_path) }
   		it { should have_link('Sign out', href: destroy_user_session_path) }

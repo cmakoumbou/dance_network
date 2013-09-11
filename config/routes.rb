@@ -5,6 +5,12 @@ DanceNetwork::Application.routes.draw do
     resources :comments, only: [:create, :destroy]
   end
   resources :relationships, only: [:create, :destroy]
+
+  resources :messages, only: [:index, :new, :create, :show, :destroy] do
+    member do
+      post 'reply'
+    end
+  end
   
   root  'static_pages#home'
 

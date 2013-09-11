@@ -1,0 +1,10 @@
+<li>
+  <% if message.to == current_user %>
+    <b><%= message.from.username %></b></br>
+  <% else %>
+    <b><%= message.to.username %></b></br>
+  <% end %>
+  <%= wrap(message.conversation.order("created_at").last.body) %>
+  <%= link_to "View conversation", message_path(message.id), method: :get %></br>
+  <%= link_to "Delete", message_path(message.id), method: :delete, data: { confirm: "You sure?" } %>
+</li>
