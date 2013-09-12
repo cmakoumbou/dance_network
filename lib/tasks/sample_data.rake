@@ -5,6 +5,7 @@ namespace :db do
     make_textposts
     make_relationships
     make_comments
+    make_messages
   end
 end
 
@@ -60,4 +61,14 @@ def make_comments
     content = Faker::Lorem.sentence(5)
     users.each { |user| user.comments.create!(content: content, textpost_id: rand(300)) }
   end
+end
+
+def make_messages
+  first_user = User.first
+  last_user = User.last
+  message = first_user.send_message(last_user, "Hey, how are you?")
+  last_user.reply_to(message, "Im good and you?")
+  first_user.reply_to(message, "Im fine, thanks.")
+  first_user.reply_to(message, "What are you doing today?")
+  last_user.reply_to(message, "Nothing much.")
 end
