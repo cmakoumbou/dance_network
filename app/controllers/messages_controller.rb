@@ -10,22 +10,56 @@ class MessagesController < ApplicationController
     @message = ActsAsMessageable::Message.new
   end
 
+  #def create
+  #	if User.find_by_username(params[:message][:to]) != nil
+  #    @to = User.find_by_username(params[:message][:to])
+  #    @body = params[:message][:body]
+  #    if !current_user.messages.are_to(@to).blank?
+  #      @old_message = current_user.messages.are_to(@to).last
+  #      @message = current_user.reply_to(@old_message, @body)
+  #      redirect_to message_path(@old_message)
+  #    else
+  #      @message = current_user.send_message(@to, @body)
+  #      if @message.errors.blank?
+  #        flash[:success] = "Message sent"
+  #        redirect_to messages_path
+  #      else
+  #        flash[:error] = "Message not sent"
+  #        redirect_to new_message_path
+  #      end
+  #    end
+  #  else
+  #    flash.now[:error] = "User not found"
+  #    render "new"
+  #   end
+  #end
+
   def create
-  	if User.find_by_username(params[:message][:to]) != nil
+    if User.find_by_username(params[:message][:to]) != nil
       @to = User.find_by_username(params[:message][:to])
       @body = params[:message][:body]
-      @message = current_user.send_message(@to, @body)
-      if @message.errors.blank?
-        flash[:success] = "Message sent"
-        redirect_to messages_path
+      if !current_user.messages.are_to(@to).blank?
+        @old_message = current_user.messages.are_to(@to).last
+        @message = current_user.reply_to(@old_message, @body)
+        redirect_to message_path(@old_message)
+      elsif !current_user.messages.are_from(@to).blank?
+        @old_message = current_user.messages.are_from(@to).last
+        @message = current_user.reply_to(@old_message, @body)
+        redirect_to message_path(@old_message)
       else
-      	flash[:error] = "Message not sent"
-        redirect_to new_message_path
+        @message = current_user.send_message(@to, @body)
+        if (@message.errors.blank?)
+          flash[:success] = "Message sent"
+          redirect_to messages_path
+        else
+          flash[:error] = "Message not sent"
+          redirect_to new_message_path
+        end
       end
     else
-      flash[:error] = "User not found"
-      render "new"
-     end
+      flash.now[:error] = "User not found"
+      render 'new'
+    end
   end
 
   #def show
