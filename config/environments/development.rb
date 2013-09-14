@@ -37,4 +37,7 @@ DanceNetwork::Application.configure do
 
   # Mailer
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  
+  # Public_activity
+  PublicActivity.enabled = true
 end

@@ -6,7 +6,10 @@ class CommentsController < ApplicationController
     @textpost = Textpost.find(params[:textpost_id])
     @comment = @textpost.comments.build(comment_params)
     @comment.user = current_user
-  	@comment.save
+  	if @comment.save
+      #@comment.create_activity :create, owner: current_user, recipient: @textpost
+      @comment.create_activity :create, owner: current_user, recipient: @textpost.user
+    end
   	redirect_to :back
   end
 

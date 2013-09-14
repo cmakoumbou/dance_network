@@ -12,6 +12,7 @@ gem 'bootstrap-will_paginate', '0.0.9'
 gem 'validates_timeliness', '3.0.14'
 gem 'paperclip', '3.5.0'
 gem 'acts-as-messageable', :git => 'git://github.com/LTe/acts-as-messageable.git'
+gem 'public_activity', '1.4.0'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'

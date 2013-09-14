@@ -1,4 +1,5 @@
 class Comment < ActiveRecord::Base
+  include PublicActivity::Common
   belongs_to :user
   belongs_to :textpost
   validates :user_id, presence: true

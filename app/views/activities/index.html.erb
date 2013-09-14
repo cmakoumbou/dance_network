@@ -1,0 +1,9 @@
+<% provide(:title, 'Activities') %>
+
+<h2>Latest activities</h2>
+
+<% @activities.each do |activity| %>
+  <% if activity.trackable %>
+    <%= render_activity activity %>
+  <% end %>
+<% end %>
