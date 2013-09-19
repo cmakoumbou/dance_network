@@ -1,0 +1,18 @@
+<script src="http://js.pusher.com/2.1/pusher.min.js"></script>
+<% if user_signed_in? %>
+  <script type="text/javascript">
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+
+    var pusher = new Pusher('3c81460b9cb945f90699');
+    var channel = pusher.subscribe('private-'+<%= current_user.id %>);
+    channel.bind('new_message', function(data) {
+      msg = data.from + ' has sent you a message: ' + data.message_body + ' at ' + data.message_time;
+      alert(msg);
+    });
+  </script>
+<% end %>

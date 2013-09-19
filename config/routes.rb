@@ -1,7 +1,9 @@
 DanceNetwork::Application.routes.draw do
   
   devise_for :users, :controllers => { :registrations => "registrations" }
- 
+
+  post 'pusher/auth'
+
   resources :textposts, only: [:create, :destroy] do
     resources :comments, only: [:create, :destroy]
   end

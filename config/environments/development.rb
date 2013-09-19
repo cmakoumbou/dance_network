@@ -40,4 +40,11 @@ DanceNetwork::Application.configure do
   
   # Public_activity
   PublicActivity.enabled = true
+
+  # Pusher
+  require 'pusher'
+
+  Pusher.app_id = '54484'
+  Pusher.key    = '3c81460b9cb945f90699'
+  Pusher.secret = 'c0a821cd8232a7c40b82'
 end

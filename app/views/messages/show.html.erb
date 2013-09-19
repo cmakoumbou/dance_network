@@ -2,9 +2,9 @@
 
 <h2>Show message</h2>
 
-<ol class="textposts">
+<ul id="chat">
   <%= render partial: 'conversation', collection: @conversation %>
-</ol>
+</ul>
 
 <%= form_for ActsAsMessageable::Message.new, :url => reply_message_path(@message), :method => :post do |f| %>
 

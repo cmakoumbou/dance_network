@@ -4,6 +4,7 @@ class MessagesController < ApplicationController
 
   def index
     @messages = current_user.messages.conversations
+    #Pusher['private-'+current_user.id.to_s].trigger('new_message', {from: current_user.username})
   end
 
   def new
@@ -41,15 +42,22 @@ class MessagesController < ApplicationController
       if !current_user.messages.are_to(@to).blank?
         @old_message = current_user.messages.are_to(@to).last
         @message = current_user.reply_to(@old_message, @body)
+        if (@message.errors.blank?)
+          Pusher['private-'+current_user.id.to_s].trigger('new_message', {from: current_user.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+        end
         redirect_to message_path(@old_message)
       elsif !current_user.messages.are_from(@to).blank?
         @old_message = current_user.messages.are_from(@to).last
         @message = current_user.reply_to(@old_message, @body)
+        if (@message.errors.blank?)
+          Pusher['private-'+current_user.id.to_s].trigger('new_message', {from: current_user.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+        end
         redirect_to message_path(@old_message)
       else
         @message = current_user.send_message(@to, @body)
         if (@message.errors.blank?)
           flash[:success] = "Message sent"
+          Pusher['private-'+current_user.id.to_s].trigger('new_message', {from: current_user.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
           redirect_to messages_path
         else
           flash[:error] = "Message not sent"
