@@ -9,9 +9,10 @@ DanceNetwork::Application.routes.draw do
   end
   resources :relationships, only: [:create, :destroy]
 
-  resources :messages, only: [:index, :new, :create, :show, :destroy] do
+  resources :messages, only: [:index, :new, :create, :destroy] do
     member do
       post 'reply'
+      get 'chat'
     end
   end
   

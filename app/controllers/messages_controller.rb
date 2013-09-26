@@ -18,7 +18,7 @@ class MessagesController < ApplicationController
   #    if !current_user.messages.are_to(@to).blank?
   #      @old_message = current_user.messages.are_to(@to).last
   #      @message = current_user.reply_to(@old_message, @body)
-  #      redirect_to message_path(@old_message)
+  #      redirect_to chat_message_path(@old_message)
   #    else
   #      @message = current_user.send_message(@to, @body)
   #      if @message.errors.blank?
@@ -26,7 +26,7 @@ class MessagesController < ApplicationController
   #        redirect_to messages_path
   #      else
   #        flash[:error] = "Message not sent"
-  #        redirect_to new_message_path
+  #        redirect_to new_chat_message_path
   #      end
   #    end
   #  else
@@ -36,34 +36,52 @@ class MessagesController < ApplicationController
   #end
 
   def create
-    if User.find_by_username(params[:message][:to]) != nil
+    if User.find_by_username(params[:message][:to]) != nil && User.find_by_username(params[:message][:to]) != current_user
       @to = User.find_by_username(params[:message][:to])
       @body = params[:message][:body]
       if !current_user.messages.are_to(@to).blank?
         @old_message = current_user.messages.are_to(@to).last
         @message = current_user.reply_to(@old_message, @body)
         if (@message.errors.blank?)
-          Pusher['private-'+current_user.id.to_s].trigger('new_message', {from: current_user.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+          Pusher['private-'+@to.id.to_s].trigger('reply_message', {conversation: @message.conversation.order("created_at").last.body.truncate(30, separator: ' '), 
+            message_id: @message.id.to_s, from: current_user.username, to: @message.to.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+          Pusher['private-'+@to.id.to_s].trigger('message_notification', {message_count: @to.messages.are_to(@to).unreaded.count})
         end
-        redirect_to message_path(@old_message)
+        redirect_to chat_message_path(@old_message)
       elsif !current_user.messages.are_from(@to).blank?
         @old_message = current_user.messages.are_from(@to).last
         @message = current_user.reply_to(@old_message, @body)
         if (@message.errors.blank?)
-          Pusher['private-'+current_user.id.to_s].trigger('new_message', {from: current_user.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+          Pusher['private-'+@to.id.to_s].trigger('reply_message', {conversation: @message.conversation.order("created_at").last.body.truncate(30, separator: ' '), 
+            message_id: @message.id.to_s, from: current_user.username, to: @message.to.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+          Pusher['private-'+@to.id.to_s].trigger('message_notification', {message_count: @to.messages.are_to(@to).unreaded.count})
         end
-        redirect_to message_path(@old_message)
+        redirect_to chat_message_path(@old_message)
+      elsif !@to.messages.are_from(current_user).blank?
+        @old_message = @to.messages.are_from(current_user).last
+        @message = current_user.reply_to(@old_message, @body)
+        if (@message.errors.blank?)
+          Pusher['private-'+@to.id.to_s].trigger('reply_message', {conversation: @message.conversation.order("created_at").last.body.truncate(30, separator: ' '), 
+            message_id: @message.id.to_s, from: current_user.username, to: @message.to.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+          Pusher['private-'+@to.id.to_s].trigger('message_notification', {message_count: @to.messages.are_to(@to).unreaded.count})
+        end
+        redirect_to chat_message_path(@message)
       else
         @message = current_user.send_message(@to, @body)
         if (@message.errors.blank?)
           flash[:success] = "Message sent"
-          Pusher['private-'+current_user.id.to_s].trigger('new_message', {from: current_user.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+          Pusher['private-'+@to.id.to_s].trigger('new_message', {conversation: @message.conversation.order("created_at").last.body.truncate(30, separator: ' '), 
+            message_id: @message.id.to_s, from: current_user.username, to: @message.to.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+          Pusher['private-'+@to.id.to_s].trigger('message_notification', {message_count: @to.messages.are_to(@to).unreaded.count})
           redirect_to messages_path
         else
           flash[:error] = "Message not sent"
           redirect_to new_message_path
         end
       end
+    elsif User.find_by_username(params[:message][:to]) == current_user
+      flash.now[:error] = "Can't message yourself"
+      render 'new'
     else
       flash.now[:error] = "User not found"
       render 'new'
@@ -75,19 +93,31 @@ class MessagesController < ApplicationController
   #  @conversation = @message.conversation.reverse
   #end
 
-  def show
+  def chat
     @message = current_user.messages.find(params[:id])
     @received_conversation = @message.conversation.where(received_messageable_id: current_user.id.to_s).where(recipient_delete: false)
+    @received_conversation.each do |message|
+      message.mark_as_read
+    end
     @sent_conversation = @message.conversation.where(sent_messageable_id: current_user.id.to_s).where(sender_delete: false)
     @all_conversation = @received_conversation + @sent_conversation
     @conversation = @all_conversation.sort_by { |obj| obj.created_at }
   end
 
   def reply
-    @message = current_user.messages.find(params[:id])
+    @old_message = current_user.messages.find(params[:id])
     @body = params[:acts_as_messageable_message][:body]
-    current_user.reply_to(@message, @body)
-    redirect_to message_path(@message)
+    @message = current_user.reply_to(@old_message, @body)
+    if @old_message.to == current_user
+      Pusher['private-'+@old_message.from.id.to_s].trigger('reply_message', {conversation: @message.conversation.order("created_at").last.body.truncate(30, separator: ' '), 
+            message_id: @message.id.to_s, from: current_user.username, to: @message.to.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+      Pusher['private-'+@old_message.from.id.to_s].trigger('message_notification', {message_count: @old_message.from.messages.are_to(@old_message.from).unreaded.count})
+    else
+      Pusher['private-'+@old_message.to.id.to_s].trigger('reply_message', {conversation: @message.conversation.order("created_at").last.body.truncate(30, separator: ' '), 
+            message_id: @message.id.to_s, from: current_user.username, to: @message.to.username, message_body: @message.body, message_time: @message.created_at.strftime("%H:%M")})
+      Pusher['private-'+@old_message.to.id.to_s].trigger('message_notification', {message_count: @old_message.to.messages.are_to(@old_message.to).unreaded.count})
+    end
+    redirect_to chat_message_path(@old_message)
   end
   
   # destroy method

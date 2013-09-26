@@ -1,1 +1,37 @@
 <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>
+
+
+ $("#messages_index").append('<li id="messages_index"><% if' + data.to + '==' + current_user + '%><b><%=' + 
+          data.from + '%></b></br><% else %><b><%=' + data.to_username + '%></b></br><% end %><%= wrap(' +
+          data.conversation + ') %><%= link_to "View conversation", message_path(' +
+          data.message_id + '), method: :get %></br><%= link_to "Delete", messages_path(' +
+          data.message_id + ', method: :delete, data: { confirm: "You sure?" } %></li>');
+
+
+          <li id="messages_index"><% if data.to == current_user %><b><%= data.from %></b><br><% else %><b><%= data.to_username %>
+
+ $("#messages_index").append('<li id="conversation"><% if ' + data.to + ' == ' + current_user + ' %><b><%= ' + data.from + ' %></b></br><% else %><b><%= ' + data.to_username + ' %></b></br><% end %><%= wrap(' + data.conversation + ') %><%= link_to "View conversation", message_path(' +data.message_id + '), method: :get %></br><%= link_to "Delete", messages_path(' + data.message_id + '), method: :delete, data: { confirm: "You sure?" } %></li>');
+
+
+  channel.bind('new_message', function(data) {
+        $("#messages_index").append('<li id="conversation"><% if ' + data.to + ' == ' + current_user + ' %><b><%= ' + data.from + ' %></b></br><% else %><b><%= ' + 
+          data.to_username + ' %></b></br><% end %><%= wrap(' + data.conversation + ') %><%= link_to "View conversation", message_path(' + 
+          data.message_id + '), method: :get %></br><%= link_to "Delete", messages_path(' + data.message_id + '), method: :delete, data: { confirm: "You sure?" } %></li>');
+      });
+
+
+       channel.bind('new_message', function(data) {
+        $("#messages_index").append('<li id="conversation"><% if ' + data.to + ' == ' + current_user.username + ' %><b><%= ' + data.from + ' %></b></br><% else %><b><%= ' + 
+          data.to + ' %></b></br><% end %><%= wrap(' + data.conversation + ') %><%= link_to "View conversation", message_path(' + 
+          data.message_id + '), method: :get %></br><%= link_to "Delete", messages_path(' + data.message_id + '), method: :delete, data: { confirm: "You sure?" } %></li>');
+      });
+
+      channel.bind('new_message', function(data) {
+        $("#messages_index").append('<li id="conversation"><% if ' + data.to + ' == ' + current_user.username + ' %><b><%= ' + data.from + ' %></b></br><% else %><b><%= ' + 
+          data.to + ' %></b></br><% end %><%= wrap(' + data.conversation + ') %><%= link_to "View conversation", message_path(' + 
+          data.message_id + '), method: :get %></br><%= link_to "Delete", messages_path(' + data.message_id + '), method: :delete, data: { confirm: "You sure?" } %></li>');
+      });
+
+<% if data.to == current_user.username %><b><%= data.from %></b></br><% else %><b><%= data.to %></b></br><% end %>
+
+<b>Number of unread messages: <%= current_user.messages.are_to(current_user).unreaded.count %></b>

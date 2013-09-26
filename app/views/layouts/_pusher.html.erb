@@ -1,18 +1,22 @@
 <script src="http://js.pusher.com/2.1/pusher.min.js"></script>
 <% if user_signed_in? %>
-  <script type="text/javascript">
-    // Enable pusher logging - don't include this in production
-    Pusher.log = function(message) {
-      if (window.console && window.console.log) {
-        window.console.log(message);
-      }
-    };
-
-    var pusher = new Pusher('3c81460b9cb945f90699');
-    var channel = pusher.subscribe('private-'+<%= current_user.id %>);
-    channel.bind('new_message', function(data) {
-      msg = data.from + ' has sent you a message: ' + data.message_body + ' at ' + data.message_time;
-      alert(msg);
+  <script type="text/javascript" charset="utf-8">
+    $(function() {
+      var pusher = new Pusher("<%= Pusher.key %>");
+      var channel = pusher.subscribe('private-'+<%= current_user.id %>);
+      //channel.bind('new_message', function(data) {
+      //  $("#messages_index").prepend('New message, <a href="javascript:location.reload(true)">click to refresh the page</a>');
+      //});
+      channel.bind('message_notification', function(data) {
+        if(window.location.href.indexOf("chat") == -1) {
+          $("#messages-count").html(data.message_count + ' Messages');
+        }
+      });
+      channel.bind('reply_message', function(data) {
+        $("#chat").append('<li id="conversation"><span class="created_at">' + data.message_time + '</span>' + data.from + ': ' + data.message_body + '</li>');
+        $("#chat").scrollTop($("#chat")[0].scrollHeight);
+        $.ajax('/messages/<%= params[:id] %>/chat');
+      });
     });
   </script>
 <% end %>

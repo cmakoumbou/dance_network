@@ -1,5 +1,5 @@
-<li>
+<li id="conversation">
   <span class="created_at"><%= conversation.created_at.strftime("%H:%M") %></span>
   <%= conversation.from.username %>: 
-  <%= conversation.body %>
+  <%= wrap(conversation.body) %>
 </li>
