@@ -4,17 +4,20 @@
     $(function() {
       var pusher = new Pusher("<%= Pusher.key %>");
       var channel = pusher.subscribe('private-'+<%= current_user.id %>);
-      //channel.bind('new_message', function(data) {
-      //  $("#messages_index").prepend('New message, <a href="javascript:location.reload(true)">click to refresh the page</a>');
-      //});
+      channel.bind('new_message', function(data) {
+        $("#messages_index").prepend('<h4>New message from ' + data.from + '<a href="javascript:location.reload(true)"> click to refresh the page</a></h4></br>');
+      });
       channel.bind('message_notification', function(data) {
-        if(window.location.href.indexOf("chat") == -1) {
-          $("#messages-count").html(data.message_count + ' Messages');
+        if(!$('#chat_' + data.from).length){
+          $("#messages-count").html('Messages (' + data.total_message_count + ')');
+          $("#title").html('(' + data.total_message_count + ') <%= full_title(yield(:title)) %>');
+          $("#new_messages_" + data.from).html('(' + data.message_count + ')');
+          $("#message_body_" + data.from).html(data.conversation);
         }
       });
       channel.bind('reply_message', function(data) {
-        $("#chat").append('<li id="conversation"><span class="created_at">' + data.message_time + '</span>' + data.from + ': ' + data.message_body + '</li>');
-        $("#chat").scrollTop($("#chat")[0].scrollHeight);
+        $("#chat_" + data.from).append('<li id="conversation"><span class="created_at">' + data.message_time + '</span>' + data.from + ': ' + data.message_body + '</li>');
+        $("#chat_" + data.from).scrollTop($("#chat_" + data.from)[0].scrollHeight);
         $.ajax('/messages/<%= params[:id] %>/chat');
       });
     });

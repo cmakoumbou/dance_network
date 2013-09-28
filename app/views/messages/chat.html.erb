@@ -1,10 +1,15 @@
 <% provide(:title, 'Chat') %>
 
 <h2>Chat</h2>
-
-<ul id="chat">
-  <%= render partial: 'conversation', collection: @conversation %>
-</ul>
+<% if @message.to == current_user %>
+  <ul id="chat_<%= @message.from.username %>" class="chat">
+    <%= render partial: 'conversation', collection: @conversation %>
+  </ul>
+<% else %>
+  <ul id="chat_<%= @message.to.username %>" class="chat">
+    <%= render partial: 'conversation', collection: @conversation %>
+  </ul>
+<% end %>
 
 <%= form_for ActsAsMessageable::Message.new, :url => reply_message_path(@message), :method => :post do |f| %>
 

@@ -1,10 +1,13 @@
-<li id="conversation">
+<li id="message_conversation">
   <% if message.to == current_user %>
-    <b><%= message.from.username %></b></br>
+    <b><%= message.from.username %></b>
+    <b id="new_messages_<%= message.from.username %>">(<%= current_user.messages.are_from(message.from).unreaded.count %>)</b></br>
+    <p id="message_body_<%= message.from.username %>"><%= wrap(message.conversation.order("created_at").last.body.truncate(30, separator: ' ')) %></p>
   <% else %>
-    <b><%= message.to.username %></b></br>
+    <b><%= message.to.username %></b>
+    <b id="new_messages_<%= message.to.username %>">(<%= current_user.messages.are_from(message.to).unreaded.count %>)</b></br>
+    <p id="message_body_<%= message.to.username %>"><%= wrap(message.conversation.order("created_at").last.body.truncate(30, separator: ' ')) %></p>
   <% end %>
-  <%= wrap(message.conversation.order("created_at").last.body.truncate(30, separator: ' ')) %>
   <%= link_to "View conversation", chat_message_path(message.id), method: :get %></br>
   <%= link_to "Delete", message_path(message.id), method: :delete, data: { confirm: "You sure?" } %>
-</li>
+</li></br>

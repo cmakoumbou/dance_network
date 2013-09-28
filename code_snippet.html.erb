@@ -35,3 +35,21 @@
 <% if data.to == current_user.username %><b><%= data.from %></b></br><% else %><b><%= data.to %></b></br><% end %>
 
 <b>Number of unread messages: <%= current_user.messages.are_to(current_user).unreaded.count %></b>
+
+
+<li id="message_conversation">
+  <% if message.to == current_user %>
+    <% if current_user.messages.are_from(message.from).unreaded.count == 0 %>
+      <b><%= message.from.username %></b></br>
+    <% else %>
+      <b><%= message.from.username %></b>
+      <b id="new_messages">(<%= current_user.messages.are_from(message.from).unreaded.count %>)</b></br> 
+    <% end %>
+  <% else %>
+    <% if current_user.messages.are_to(message.to).unreaded.count == 0 %>
+      <b><%= message.to.username %></b></br>
+    <% else %>
+      <b><%= message.to.username %></b>
+      <b id="new_messages">(<%= current_user.messages.are_from(message.to).unreaded.count %>)</b></br>
+    <% end %>
+  <% end %>

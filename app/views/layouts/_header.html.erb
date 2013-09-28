@@ -12,7 +12,7 @@
               <% if current_user.messages.are_to(current_user).unreaded.count == 0 %>
                 <a id="messages-count" href="#" class="dropdown-toggle" data-toggle="dropdown"> Messages <b class="caret"></b></a>
               <% else %>
-                <a id="messages-count" href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.messages.are_to(current_user).unreaded.count %> Messages <b class="caret"></b></a>
+                <a id="messages-count" href="#" class="dropdown-toggle" data-toggle="dropdown"> Messages (<%= current_user.messages.are_to(current_user).unreaded.count %>) <b class="caret"></b></a>
               <% end %>
               <ul class="dropdown-menu">
                 <li><%= link_to "Inbox", messages_path %></li>
