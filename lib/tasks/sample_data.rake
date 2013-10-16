@@ -6,6 +6,7 @@ namespace :db do
     make_relationships
     make_comments
     make_messages
+    make_likes
   end
 end
 
@@ -71,4 +72,13 @@ def make_messages
   first_user.reply_to(message, "Im fine, thanks.")
   first_user.reply_to(message, "What are you doing today?")
   last_user.reply_to(message, "Nothing much.")
+end
+
+def make_likes
+  users = User.all
+  first_user = users.first
+  followers = users[2..20]
+  5.times do |n|
+    followers.each { |follower| first_user.textposts[n].liked_by follower }
+  end
 end

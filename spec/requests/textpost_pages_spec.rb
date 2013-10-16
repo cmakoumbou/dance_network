@@ -5,6 +5,7 @@ describe "TextpostPages" do
 	subject { page }
 
 	let(:user) { FactoryGirl.create(:user) }
+	let(:other_user) { FactoryGirl.create(:user) }
 	let(:textpost) { FactoryGirl.create(:textpost, user: user) }
 	before { sign_in user }
 
@@ -54,5 +55,24 @@ describe "TextpostPages" do
 		    	expect { first(:link, 'delete_comment').click }.to change(Comment, :count).by(-1)
 		    end
 		end
+    end
+
+    describe "liker counts" do
+    	before do
+    		textpost.liked_by other_user
+    		visit user_root_path(user)
+    	end
+
+    	it { should have_link("1 likes", href: likers_textpost_path(textpost)) }
+    end
+
+    describe "likers page" do
+    	before do
+    		textpost.liked_by other_user
+    		visit likers_textpost_path(textpost)
+    	end
+
+    	it { should have_title(full_title('Likers')) }
+    	it { should have_link(other_user.username, href: user_root_path(other_user)) }
     end
 end

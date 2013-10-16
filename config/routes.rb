@@ -6,6 +6,11 @@ DanceNetwork::Application.routes.draw do
 
   resources :textposts, only: [:create, :destroy] do
     resources :comments, only: [:create, :destroy]
+    member do
+      get 'likers'
+      get 'like'
+      get 'unlike'
+    end
   end
   resources :relationships, only: [:create, :destroy]
 

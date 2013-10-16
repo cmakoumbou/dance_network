@@ -14,6 +14,7 @@ gem 'paperclip', '3.5.0'
 gem 'acts-as-messageable', :git => 'git://github.com/LTe/acts-as-messageable.git'
 gem 'public_activity', '1.4.0'
 gem 'pusher', '0.12.0'
+gem 'acts_as_votable', '0.7.1'
 
 group :development, :test do
   gem 'rspec-rails', '2.13.1'

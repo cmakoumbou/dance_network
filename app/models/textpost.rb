@@ -2,6 +2,7 @@ class Textpost < ActiveRecord::Base
 	belongs_to :user
   has_many :comments, dependent: :destroy
 	default_scope -> { order('created_at DESC') }
+  acts_as_votable
 	validates :content, presence: true, length: { maximum: 500 }
 	validates :user_id, presence: true
 

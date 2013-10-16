@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class TextpostsController < ApplicationController
 	before_action :authenticate_user!
 	before_action :correct_user, only: :destroy
@@ -16,6 +18,11 @@ class TextpostsController < ApplicationController
 	def destroy
 		@textpost.destroy
 		redirect_to root_url
+	end
+
+	def likers
+    	@textpost = Textpost.find(params[:id])
+    	@likers = @textpost.likes.voters.paginate(page: params[:page])
 	end
 
 	private
