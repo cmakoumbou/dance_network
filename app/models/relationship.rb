@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: relationships
+#
+#  id          :integer          not null, primary key
+#  follower_id :integer
+#  followed_id :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class Relationship < ActiveRecord::Base
   include PublicActivity::Common
   #tracked only: :create, owner: ->(controller, model) { controller && controller.current_user }

@@ -1,6 +1,12 @@
 <% provide(:title, 'All users') %>
 <h1>All users</h1>
 
+<%= form_tag("/users", method: "get") do %>
+  <%= label_tag(:query, "Search:") %>
+  <%= text_field_tag(:query, params[:query]) %>
+  <%= submit_tag("Search", :name => nil) %>
+<% end %>
+
 <%= will_paginate %>
 
 <ul class="users">

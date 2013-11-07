@@ -98,6 +98,7 @@ describe "User pages" do
 
   describe "index" do
     let(:user) { FactoryGirl.create(:user) }
+    let(:other_user) { FactoryGirl.create(:user) }
     before(:each) do
       sign_in user
       visit users_index_path
@@ -117,6 +118,17 @@ describe "User pages" do
           page.should have_selector('li', text: user.first_name + " " + user.last_name)
         end
       end
+    end
+
+    describe "search" do
+      it { should have_content('Search:') }
+
+      before do
+       fill_in "Search", with: "unknown"
+       click_button "Search"
+      end
+
+      it { should_not have_link(user.first_name + " " + user.last_name, href: user_root_path(user)) }
     end
   end
 

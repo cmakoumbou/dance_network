@@ -24,6 +24,8 @@
 #  avatar_content_type    :string(255)
 #  avatar_file_size       :integer
 #  avatar_updated_at      :datetime
+#  city                   :string(255)
+#  username               :string(255)
 #
 
 require 'spec_helper'

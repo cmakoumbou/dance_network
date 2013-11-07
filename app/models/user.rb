@@ -24,6 +24,8 @@
 #  avatar_content_type    :string(255)
 #  avatar_file_size       :integer
 #  avatar_updated_at      :datetime
+#  city                   :string(255)
+#  username               :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -95,5 +97,13 @@ class User < ActiveRecord::Base
 
   def unfollow!(other_user)
     relationships.find_by(followed_id: other_user.id).destroy!
+  end
+
+  def self.user_search(query)
+    if query
+      where('username LIKE ?', "%#{query}%")
+    else
+      User.all
+    end
   end
 end

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: textposts
+#
+#  id         :integer          not null, primary key
+#  content    :text
+#  user_id    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Textpost < ActiveRecord::Base
 	belongs_to :user
   has_many :comments, dependent: :destroy

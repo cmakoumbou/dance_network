@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :following, :followers]
 
   def index
-  	@users = User.paginate(page: params[:page])
+  	@users = User.user_search(params[:query]).paginate(page: params[:page])
   end
 
   def show
