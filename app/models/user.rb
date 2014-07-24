@@ -48,7 +48,6 @@ class User < ActiveRecord::Base
                       :default_url => "/images/avatar.png"
 
   acts_as_messageable :required => :body
-  acts_as_voter
 
   before_save { username.downcase! }
 

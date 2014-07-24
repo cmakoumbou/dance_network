@@ -1,8 +1,0 @@
-<% provide(:title, 'Likers') %>
-<h1>Likers</h1>
-
-<ul class="users">
-    <%= render partial: 'shared/liker', collection: @likers %>
-</ul>
-
-<%= will_paginate @likers%>

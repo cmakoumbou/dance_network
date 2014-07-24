@@ -4,8 +4,6 @@
     Posted <%= time_ago_in_words(textpost.created_at) %> ago.
   </span>
   <%= render 'shared/delete_link', each_post: textpost %> |
-  <%= render 'shared/like_form', textpost: textpost if user_signed_in? %>
-  <%= render 'shared/liker_link', textpost: textpost %>
   <%= render textpost.comments %>
   <%= render 'shared/comment_form', textpost: textpost if user_signed_in? %>
 </li>

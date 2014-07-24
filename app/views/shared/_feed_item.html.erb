@@ -10,8 +10,6 @@
     Posted <%= time_ago_in_words(feed_item.created_at) %> ago.
   </span>
   <%= render 'shared/delete_link', each_post: feed_item %>
-    <%= render 'shared/like_form', textpost: feed_item %>
-    <%= render 'shared/liker_link', textpost: feed_item %>
-    <%= render feed_item.comments %>
+  <%= render feed_item.comments %>
   <%= render 'shared/comment_form', textpost: feed_item %>
 </li>
