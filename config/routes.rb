@@ -8,8 +8,8 @@ DanceNetwork::Application.routes.draw do
     resources :comments, only: [:create, :destroy]
     member do
       get 'likers'
-      get 'like'
-      get 'unlike'
+      put 'like', to: 'textposts#like'
+      put 'unlike', to: 'textposts#unlike'
     end
   end
   resources :relationships, only: [:create, :destroy]

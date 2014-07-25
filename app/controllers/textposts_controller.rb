@@ -20,6 +20,23 @@ class TextpostsController < ApplicationController
 		redirect_to root_url
 	end
 
+	def like
+		@textpost = Textpost.find(params[:id])
+		@textpost.liked_by current_user
+		redirect_to :back
+	end
+
+	def unlike
+		@textpost = Textpost.find(params[:id])
+		@textpost.unliked_by current_user
+		redirect_to :back
+	end
+
+	def likers
+		@textpost = Textpost.find(params[:id])
+		@likers = @textpost.get_likes.voters.paginate(page: params[:page])
+	end
+
 	private
 
 		def textpost_params

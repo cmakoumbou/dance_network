@@ -66,17 +66,17 @@ describe "TextpostPages" do
     	it { should have_link("1 likes", href: likers_textpost_path(textpost)) }
 
     	describe "like a textpost" do
-    		it { should have_link("like", href: like_textpost_path(textpost)) }
+    		it { should have_link("Like", href: like_textpost_path(textpost)) }
 
     		it "should increment the likes count" do
     	 		expect {
-    	 			click_link "like"
-    	 		}.to change{ textpost.likes.size }.by(1)
+    	 			click_link "Like"
+    	 		}.to change{ textpost.get_likes.size }.by(1)
     		end
 
     		describe "toggling the link" do
-    			before { click_link "like" }
-    			it { should have_link("unlike", href: unlike_textpost_path(textpost)) }
+    			before { click_link "Like" }
+    			it { should have_link("Unlike", href: unlike_textpost_path(textpost)) }
     		end
     	end
 
@@ -86,17 +86,17 @@ describe "TextpostPages" do
     			visit user_root_path(user)
     		end
 
-    		it { should have_link("unlike", href: unlike_textpost_path(textpost)) }
+    		it { should have_link("Unlike", href: unlike_textpost_path(textpost)) }
 
     		it "should decrement the likes count" do
     			expect {
-    				click_link "unlike"
-    			}.to change{ textpost.likes.size }.by(-1)
+    				click_link "Unlike"
+    			}.to change{ textpost.get_likes.size }.by(-1)
     		end
 
     		describe "toggling the link" do
-    			before { click_link "unlike" }
-    			it { should have_link("like", href: like_textpost_path(textpost)) }
+    			before { click_link "Unlike" }
+    			it { should have_link("Like", href: like_textpost_path(textpost)) }
     		end
     	end
     end
