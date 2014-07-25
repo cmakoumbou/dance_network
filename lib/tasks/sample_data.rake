@@ -20,6 +20,13 @@ def make_users
                email: "user@example.com",
                password: "foobar",
                password_confirmation: "foobar")
+
+  User.create!(first_name: "Example2",
+               last_name: "User2",
+               username: "useple2",
+               email: "user2@example.com",
+               password: "foobar2",
+               password_confirmation: "foobar2")
     
   99.times do |n|
     first_name  = Faker::Name.first_name
