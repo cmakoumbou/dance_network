@@ -25,7 +25,7 @@
     };
 
     this.each(function() {
-      $(this).after('<p class="counter">' + count_text + '</p>')
+      $(this).after('<h4 class="super_bold pull-left">' + count_text + '</h4>')
       calc(this);
       $(this).keyup(function(){calc(this)});
       $(this).change(function(){calc(this)});

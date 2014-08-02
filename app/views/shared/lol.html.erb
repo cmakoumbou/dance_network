@@ -1,0 +1,5 @@
+  <%= render 'shared/delete_link', each_post: feed_item %>
+  <%= render 'shared/like_form', textpost: feed_item %> 
+  <%= render 'shared/likers_link', textpost: feed_item %>
+  <%= render feed_item.comments %>
+  <%= render 'shared/comment_form', textpost: feed_item %>

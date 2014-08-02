@@ -1,17 +1,15 @@
-<li id="<%= feed_item.id %>">
-  <a href="<%= user_root_path(feed_item.user) %>">
-  	<%= image_tag feed_item.user.avatar.url(:thumb) %>
-  </a>
-  <span class="user">
-    <%= link_to feed_item.user.first_name + " " + feed_item.user.last_name, user_root_path(feed_item.user) %>
-  </span>
-  <span class="content"><%= wrap(feed_item.content) %></span>
-  <span class="timestamp">
-    Posted <%= time_ago_in_words(feed_item.created_at) %> ago.
-  </span>
-  <%= render 'shared/delete_link', each_post: feed_item %>
-  <%= render 'shared/like_form', textpost: feed_item %> 
-  <%= render 'shared/likers_link', textpost: feed_item %>
-  <%= render feed_item.comments %>
-  <%= render 'shared/comment_form', textpost: feed_item %>
+<li id="<%= feed_item.id %>" class="media">
+  <span class="pull-left"><%= link_to (image_tag feed_item.user.avatar.url(:thumb), class: "round"), user_root_path(feed_item.user) %></span>
+  <div class="media-body">
+    <div class="special_background_master"><h3 class="media-heading super_space">
+      <strong><%= link_to feed_item.user.first_name + " " + feed_item.user.last_name, user_root_path(feed_item.user) %></strong>
+    </h3>
+    <h4 class="super_space"><strong><%= wrap(feed_item.content) %></strong></h4>
+    <%= render 'shared/likers_link', textpost: feed_item %> -
+    <%= render 'shared/like_form', textpost: feed_item %> -
+    <%= render 'shared/delete_link', each_post: feed_item %>
+    <strong>Posted <%= time_ago_in_words(feed_item.created_at) %> ago.</strong></br></div>
+    <div class="special_background"><%= render feed_item.comments %></div>
+    <%= render 'shared/comment_form', textpost: feed_item %>
+  </div>
 </li>

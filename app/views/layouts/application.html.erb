@@ -3,12 +3,12 @@
 <head>
   <% if user_signed_in? %>
     <% if current_user.messages.are_to(current_user).unreaded.count == 0 %>
-      <title id="title"><%= full_title(yield(:title)) %></title>
+      <title><%= full_title(yield(:title)) %></title>
     <% else %>
-      <title id="title">(<%= current_user.messages.are_to(current_user).unreaded.count %>) <%= full_title(yield(:title)) %></title>
+      <title>(<%= current_user.messages.are_to(current_user).unreaded.count %>) <%= full_title(yield(:title)) %></title>
     <% end %>
   <% else %>
-    <title id="title"><%= full_title(yield(:title)) %></title>
+    <title><%= full_title(yield(:title)) %></title>
   <% end %>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
@@ -18,13 +18,12 @@
 </head>
 <body>
 	<%= render 'layouts/header' %>
-    <div class="container">
+  <div class="container main">
     <% flash.each do |key, value| %>
       <%= content_tag(:div, value, class: "alert alert-#{key}") %>
     <% end %>
 		<%= yield %>
-		<%= render 'layouts/footer' %>
-    <%= debug(params) if Rails.env.development? %>
 	</div>
+  <%= render 'layouts/footer' %>
 </body>
 </html>

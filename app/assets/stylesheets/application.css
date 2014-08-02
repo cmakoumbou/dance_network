@@ -11,25 +11,3 @@
  *= require_self
  *= require_tree .
  */
-
-ul.chat {
-  list-style: none;
-  padding: 0;
-  height: 500px;
-  border: solid 1px #777;
-  margin: 5px 0;
-  overflow: auto;
-}
-
-ul.chat li {
-  margin: 4px 10px;
-  padding: 0;
-}
-
-ul.chat li .created_at {
-  float: right;
-  color: #777;
-  font-size: 11px;
-  padding-left: 4px;
-  padding-top: 2px;
-}

@@ -1,5 +1,5 @@
  <% if current_user.liked? textpost %>
-    <%= link_to "Unlike", unlike_textpost_path(textpost), method: :put %>
+    <strong><%= link_to "Unlike", unlike_textpost_path(textpost), method: :put %></strong>
  <% else %>
- 	<%= link_to "Like", like_textpost_path(textpost), method: :put %>
+ 	<strong><%= link_to "Like", like_textpost_path(textpost), method: :put %></strong>	
  <% end %>

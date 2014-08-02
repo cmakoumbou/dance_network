@@ -1,1 +1,1 @@
-<a href="<%= likers_textpost_path(textpost) %>"><%= textpost.get_likes.size %> likes</a>
+<strong class="super_space"><%= link_to "#{textpost.get_likes.size} Likes", likers_textpost_path(textpost) %></strong>
