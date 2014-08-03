@@ -1,5 +1,3 @@
-require 'will_paginate/array'
-
 class TextpostsController < ApplicationController
 	before_action :authenticate_user!
 	before_action :correct_user, only: :destroy
@@ -7,7 +5,7 @@ class TextpostsController < ApplicationController
 	def create
 		@textpost = current_user.textposts.build(textpost_params)
 		if @textpost.save
-			flash[:sucess] = "Textpost created!"
+			flash[:info] = "Textpost created!"
 			redirect_to root_url
 		else
 			@feed_items = []
@@ -34,7 +32,7 @@ class TextpostsController < ApplicationController
 
 	def likers
 		@textpost = Textpost.find(params[:id])
-		@likers = @textpost.get_likes.voters.paginate(page: params[:page])
+		@likers = @textpost.get_likes.voters.page(params[:page])
 	end
 
 	private

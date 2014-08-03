@@ -7,10 +7,8 @@
   <%= submit_tag("Search", :name => nil) %>
 <% end %>
 
-<%= will_paginate %>
-
 <ul class="users">
     <%= render @users %>
 </ul>
 
-<%= will_paginate %>
+<%= paginate @users %>
