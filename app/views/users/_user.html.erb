@@ -1,4 +1,7 @@
-<li>
-	<%= link_to image_tag(user.avatar.url(:thumb)), user_root_path(user) %>
-	<%= link_to user.first_name + " " + user.last_name, user_root_path(user) %>
+<li class="list-group-item">
+  <%= link_to image_tag(user.avatar.url(:thumb), class: "round"), user_root_path(user) %>
+  <strong class="super_font"><%= link_to user.username, user_root_path(user) %></strong> |
+  <strong><%= link_to pluralize(user.textposts.count, "textpost"), user_root_path(user) %></strong> - 
+  <strong><%= link_to "#{user.followed_users.count} following", following_user_path(user) %></strong> - 
+  <strong><%= link_to "#{user.followers.count} followers", followers_user_path(user) %></strong>
 </li>

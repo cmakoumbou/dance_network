@@ -32,7 +32,7 @@ class TextpostsController < ApplicationController
 
 	def likers
 		@textpost = Textpost.find(params[:id])
-		@likers = @textpost.get_likes.voters.page(params[:page])
+		@likers = Kaminari.paginate_array(@textpost.get_likes.voters).page(params[:page])
 	end
 
 	private

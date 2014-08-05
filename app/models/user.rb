@@ -101,7 +101,7 @@ class User < ActiveRecord::Base
 
   def self.user_search(query)
     if query
-      where('username LIKE ?', "%#{query}%")
+      where('username ILIKE ?', "%#{query}%")
     else
       User.all
     end

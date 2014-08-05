@@ -1,14 +1,16 @@
-<% provide(:title, 'All users') %>
-<h1>All users</h1>
+<% provide(:title, 'Users') %>
+
+<h1><strong>Users</strong></h1>
 
 <%= form_tag("/users", method: "get") do %>
-  <%= label_tag(:query, "Search:") %>
-  <%= text_field_tag(:query, params[:query]) %>
-  <%= submit_tag("Search", :name => nil) %>
-<% end %>
+  <h3><%= label_tag(:query, "Search User by Username") %></h3>
+  <%= text_field_tag(:query, params[:query], class: "form-control") %><br>
+  <%= submit_tag("Search", :name => nil, class: "btn btn-default pull-right") %><br>
+<% end %></br>
 
-<ul class="users">
-    <%= render @users %>
+
+<ul class="list-group">
+  <%= render @users %>
 </ul>
 
 <%= paginate @users %>
