@@ -1,56 +1,38 @@
-<% provide(:title, "Edit your profile") %>
-<h2>Update your profile</h2>
+<% provide(:title, "Settings") %>
+<h1><strong>Settings</strong></h1>
 
+
+<div class="row">
+  <div class="col-md-6">
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
 
   <div><%= f.label :username %><br />
-  <%= f.text_field :username %></div>
+  <%= f.text_field :username, class: "form-control special_border" %></div><br>
 
-  <div><%= f.label :first_name %><br />
-  <%= f.text_field :first_name %></div>
-
-  <div><%= f.label :last_name %><br />
-  <%= f.text_field :last_name %></div>
-
-  <div><%= f.label :date_of_birth %><br />
-  <%= f.date_select :date_of_birth, :start_year => Date.today.year,
-                                        :end_year => Date.today.year - 110, :order => [:day, :month, :year],
-                                        :prompt => { :day => 'Day', :month => 'Month', :year => 'Year' } %></div>
-
-  <div><%= f.label :sex %><br />
-  <%= f.select :sex, [["-----", ""], ["Male", "Male"], ["Female", "Female"]] %></div>
-
-  <div><%= f.label :bio %><br />
-  <%= f.text_area :bio, size: "60x12" %></div>
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email, class: "form-control special_border" %></div><br>
 
   <div><%= f.label :avatar %><br />
-  <%= f.file_field :avatar %></div>
-
-  <div><%= f.label :city %><br />
-  <%= f.select :city, [["Bath","Bath"], ["Birmingham","Birmingham"], ["Bradford","Bradford"], ["Brighton","Brighton"], ["Bristol","Bristol"], ["Cambridge","Cambridge"], ["Canterbury","Canterbury"], ["Carlisle","Carlisle"], ["Chester","Chester"], ["Chichester","Chichester"], ["Coventry","Coventry"], ["Derby","Derby"], ["Durham","Durham"], ["Ely","Ely"], ["Exeter","Exeter"], ["Gloucester","Gloucester"], ["Hereford","Hereford"], ["Hull","Hull"], ["Lancaster","Lancaster"], ["Leeds","Leeds"], ["Leicester","Leicester"], ["Lichfield","Lichfield"], ["Lincoln","Lincoln"], ["Liverpool","Liverpool"], ["London","London"], ["Manchester","Manchester"], ["Newcastle","Newcastle"], ["Norwich","Norwich"], ["Nottingham","Nottingham"], ["Oxford","Oxford"], ["Peterborough","Peterborough"], ["Plymouth","Plymouth"], ["Portsmouth","Portsmouth"], ["Preston","Preston"], ["Ripon","Ripon"], ["Salford","Salford"], ["Salisbury","Salisbury"], ["Sheffield","Sheffield"], ["Southampton","Southampton"], ["St Albans","St Albans"], ["Stoke-on-Trent","Stoke-on-Trent"], ["Sunderland","Sunderland"], ["Truro","Truro"], ["Wakefield","Wakefield"], ["Wells","Wells"], ["Westminster","Westminster"], ["Wolverhampton","Wolverhampton"], ["Worcester","Worcester"], ["York","York"]], :include_blank => true %></div>
-
-                            
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
-
+  <%= f.file_field :avatar %></div><br><hr>
+                          
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
   <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
+  <%= f.password_field :password, :autocomplete => "off", class: "form-control special_border" %></div><br>
 
   <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+  <%= f.password_field :password_confirmation, class: "form-control special_border" %></div><br>
 
   <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
+  <%= f.password_field :current_password, class: "form-control special_border" %></div><hr>
 
-  <div><%= f.submit "Save changes" %></div>
+  <div><%= f.submit "Save changes", class: "btn btn-default" %></div>
 <% end %>
 
-<h2>Cancel my account</h2>
+<h3><strong>Cancel my account</strong></h3>
 
 <%= form_tag( {:controller => :registrations, :action => :destroy }, { :method => :delete } ) do %>
 
@@ -59,5 +41,7 @@
   <%= label_tag(:current_password) %>
   <%= password_field_tag(:current_password) %>
 
-  <%= submit_tag("Cancel my account") %>
+  <%= submit_tag "Cancel my account" %>
 <% end %>
+</div>
+</div>

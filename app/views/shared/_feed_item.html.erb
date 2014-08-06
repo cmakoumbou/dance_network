@@ -2,7 +2,7 @@
   <span class="pull-left"><%= link_to (image_tag feed_item.user.avatar.url(:thumb), class: "round"), user_root_path(feed_item.user) %></span>
   <div class="media-body">
     <div class="special_background_master"><h3 class="media-heading super_space">
-      <strong><%= link_to feed_item.user.first_name + " " + feed_item.user.last_name, user_root_path(feed_item.user) %></strong>
+      <strong><%= link_to feed_item.user.username, user_root_path(feed_item.user) %></strong>
     </h3>
     <h4 class="super_space"><strong><%= wrap(feed_item.content) %></strong></h4>
     <%= render 'shared/likers_link', textpost: feed_item %> -

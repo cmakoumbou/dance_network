@@ -1,15 +1,19 @@
 <% provide(:title, 'New message') %>
 
-<h2>New message</h2>
+<h1><strong>New message</strong></h1>
 
-<%= form_for :message, :url => messages_path, :method => :post do |f| %>
+<div class="row">
+  <div class="col-md-6">
+    <%= form_for :message, :url => messages_path, :method => :post do |f| %>
 
-  <%= f.label :to, "Username" %>
-  <%= f.text_field :to %>
+      <%= f.label :to, "Username" %>
+      <%= f.text_field :to, class: "form-control special_border" %><br>
 
-  <%= f.label :body %>
-  <%= f.text_area :body %>
+      <%= f.label :body %>
+      <%= f.text_area :body, class: "form-control special_border", :rows => 6 %></br>
 
-  <%= f.submit "Send message" %>
+      <%= f.submit "Send message", class: "btn btn-default" %>
 
-<% end %>
+    <% end %>
+  </div>
+</div>

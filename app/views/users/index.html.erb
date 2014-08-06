@@ -2,13 +2,17 @@
 
 <h1><strong>Users</strong></h1>
 
-<%= form_tag("/users", method: "get") do %>
-  <h3><%= label_tag(:query, "Search User by Username") %></h3>
-  <%= text_field_tag(:query, params[:query], class: "form-control") %><br>
-  <%= submit_tag("Search", :name => nil, class: "btn btn-default pull-right") %><br>
-<% end %></br>
+<div class="row">
+  <div class="col-md-3">
+    <%= form_tag("/users", method: "get") do %>
+      <%= label_tag(:query, "Search User by Username") %>
+      <%= text_field_tag(:query, params[:query], class: "form-control special_border") %><br>
+      <%= submit_tag("Search", :name => nil, class: "btn btn-default") %><br>
+    <% end %></br>
+  </div>
+</div>
 
-
+<br>
 <ul class="list-group">
   <%= render @users %>
 </ul>

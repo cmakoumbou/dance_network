@@ -1,27 +1,16 @@
-<% provide(:title, @user.first_name + " " + @user.last_name) %>
+<% provide(:title, @user.username) %>
 <div class="row">
-  <aside class="span4">
-    <section>
-      <%= image_tag @user.avatar.url(:thumb) %>
-      <h1><%= @user.first_name %> <%= @user.last_name %></h1>
-      <% if !@user.bio.blank? %>
-      	<p><%= @user.bio %></p>
-      <% end %>
-      <% if !@user.city.blank? %>
-      	<p><%= @user.city %></p>
-      <% end %>
-    </section>
-    <section>
-      <%= render 'shared/stats' %>
-    </section>
-  </aside>
-  <div class="span8">
+  <div class="col-md-4">
+    <p class="super_font2"><strong><%= link_to @user.username, user_root_path(@user) %></strong></p>
+    <p class="pull-left text_space"><%= link_to image_tag(@user.avatar.url(:thumb), class: "round"), user_root_path(@user) %></p>
     <%= render 'users/follow_form' if user_signed_in? %>
+    <%= render 'shared/stats' %>
+  </div>
+  <div class="col-md-8">
     <% if @user.textposts.any? %>
-      <h3>textposts (<%= @user.textposts.count %>)</h3>
-      <ol class="textposts">
+      <ul class="list-unstyled">
         <%= render @textposts %>
-      </ol>
+      </ul>
       <%= paginate @textposts %>
     <% end %>
   </div>

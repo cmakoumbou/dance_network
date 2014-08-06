@@ -27,6 +27,9 @@ $input-color: #205081;
 $input-border: #205081;
 $input-border-focus: #205081;
 
+//list group
+$list-group-border: #205081;
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
@@ -52,6 +55,10 @@ body {
   border-width: 3px;
 }
 
+.special_border {
+  border-width: 3px;
+}
+
 .special_textarea2 {
   resize: vertical; 
   border-top-left-radius: 0;
@@ -64,6 +71,10 @@ body {
 
 .super_font {
   font-size: 150%;
+}
+
+.super_font2 {
+  font-size: 250%;
 }
 
 .super_bold {
@@ -108,3 +119,7 @@ body {
 // }
 // scale-color(#E74C3C, $lightness: -50%);
 // border-bottom: 1px solid #2e3d54;
+
+// .list_background {
+//  background-color: scale-color($navbar-default-bg, $lightness: 50%);
+// }

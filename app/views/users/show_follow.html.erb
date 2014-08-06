@@ -1,22 +1,16 @@
 <% provide(:title, @title) %>
 <div class="row">
-  <aside class="span4">
-    <section>
-      <%= render 'shared/user_info', current_user: @user %>
-    </section>
-    <section>
-      <%= render 'shared/stats' %>
-    </section>
-  </aside>
-  <div class="span8">
-    <h3><%= @title %></h3>
+  <div class="col-md-4">
+    <%= render 'shared/user_info', current_user: @user %>
+    <%= render 'shared/stats' %>
+  </div>
+  <div class="col-md-8">
+    <h1><strong><%= @title %></strong></h1>
     <% if @users.any? %>
-      <ul class="users">
+      <ul class="list-group">
         <%= render @users %>
       </ul>
       <%= paginate @users %>
     <% end %>
   </div>
 </div>
-
-  

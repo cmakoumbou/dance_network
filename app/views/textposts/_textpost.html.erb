@@ -1,11 +1,14 @@
-<li id="textpost_<%= textpost.id %>">
-  <span class="content"><%= wrap(textpost.content) %></span>
-  <span class="timestamp">
-    Posted <%= time_ago_in_words(textpost.created_at) %> ago.
-  </span>
-  <%= render 'shared/delete_link', each_post: textpost %>
-  <%= render 'shared/like_form', textpost: textpost if user_signed_in? %> 
-  <%= render 'shared/likers_link', textpost: textpost %>
-  <%= render textpost.comments %>
-  <%= render 'shared/comment_form', textpost: textpost if user_signed_in? %>
+<li id="textpost_<%= textpost.id %>" class="media">
+  <span class="pull-left"><%= link_to (image_tag textpost.user.avatar.url(:thumb), class: "round"), user_root_path(textpost.user) %></span>
+  <div class="media-body">
+    <div class="special_background_master">
+    <h3 class="media-heading super_space"><strong><%= link_to textpost.user.username, user_root_path(textpost.user) %></strong></h3>
+    <h4 class="super_space"><strong><%= wrap(textpost.content) %></strong></h4>
+    <%= render 'shared/likers_link', textpost: textpost %>
+    <%= render 'shared/like_form', textpost: textpost if user_signed_in? %> 
+    <%= render 'shared/delete_link', each_post: textpost %>
+    <strong>Posted <%= time_ago_in_words(textpost.created_at) %> ago.</strong></br></div>  
+    <div class="special_background"><%= render textpost.comments %></div>
+    <%= render 'shared/comment_form', textpost: textpost if user_signed_in? %>
+  </div>
 </li>
