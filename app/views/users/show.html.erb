@@ -5,7 +5,7 @@
     <p class="pull-left text_space"><%= link_to image_tag(@user.avatar.url(:thumb), class: "round"), user_root_path(@user) %></p>
     <%= render 'users/follow_form' if user_signed_in? %>
     <%= render 'shared/stats' %>
-  </div>
+  </div></br>
   <div class="col-md-8">
     <% if @user.textposts.any? %>
       <ul class="list-unstyled">

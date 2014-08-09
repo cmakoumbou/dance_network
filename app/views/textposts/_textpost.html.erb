@@ -4,8 +4,8 @@
     <div class="special_background_master">
     <h3 class="media-heading super_space"><strong><%= link_to textpost.user.username, user_root_path(textpost.user) %></strong></h3>
     <h4 class="super_space"><strong><%= wrap(textpost.content) %></strong></h4>
-    <%= render 'shared/likers_link', textpost: textpost %>
-    <%= render 'shared/like_form', textpost: textpost if user_signed_in? %> 
+    <%= render 'shared/likers_link', textpost: textpost %> -
+    <%= render 'shared/like_form', textpost: textpost if user_signed_in? %> -
     <%= render 'shared/delete_link', each_post: textpost %>
     <strong>Posted <%= time_ago_in_words(textpost.created_at) %> ago.</strong></br></div>  
     <div class="special_background"><%= render textpost.comments %></div>
