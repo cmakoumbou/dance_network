@@ -40,7 +40,7 @@ describe "TextpostPages" do
 			before { visit root_path }
 
 			it "should delete a textpost" do
-				expect { click_link "delete" }.to change(Textpost, :count).by(-1)
+				expect { click_link "Delete" }.to change(Textpost, :count).by(-1)
 			end
 		end
 	end
@@ -63,7 +63,7 @@ describe "TextpostPages" do
     		visit user_root_path(user)
     	end
 
-    	it { should have_link("1 likes", href: likers_textpost_path(textpost)) }
+    	it { should have_link("1 Likes", href: likers_textpost_path(textpost)) }
 
     	describe "like a textpost" do
     		it { should have_link("Like", href: like_textpost_path(textpost)) }
