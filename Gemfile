@@ -3,7 +3,7 @@ ruby '2.0.0'
 #ruby-gemset=dance_network
 
 gem 'rails', '4.0.0'
-gem 'pg', '0.15.1'
+gem 'pg', '0.18.1'
 gem 'bootstrap-sass', '3.2.0.0'
 gem 'devise', '3.0.0'
 gem 'unicorn', '4.6.3'

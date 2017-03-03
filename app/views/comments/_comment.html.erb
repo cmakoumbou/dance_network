@@ -1,7 +1,7 @@
 <div class="media super_space">
   <div class="media-body">
     <h5 class="media-heading">
-      <strong><%= link_to comment.user.first_name + " " + comment.user.last_name, user_root_path(comment.user) %></strong>
+      <strong><%= link_to comment.user.username, user_root_path(comment.user) %></strong>
     </h5>
 	<span><strong><%= wrap(comment.content) %></strong></span>
 	<% if current_user?(comment.user) %>
