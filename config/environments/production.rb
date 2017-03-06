@@ -85,6 +85,6 @@ DanceNetwork::Application.configure do
   require 'pusher'
 
   Pusher.app_id = '54484'
-  Pusher.key    = '3c81460b9cb945f90699'
-  Pusher.secret = 'c0a821cd8232a7c40b82'
+  Pusher.key    = ENV['PUSHER_KEY']
+  Pusher.secret = ENV['PUSHER_SECRET']
 end
