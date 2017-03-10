@@ -1,0 +1,19 @@
+== The Dance Network
+
+A social network for dancers.
+
+Features:
+
+* Posts
+
+* Messages
+
+* Activities
+
+* Comments
+
+* Likes
+
+* Followers
+
+* Notifications
